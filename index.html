@@ -2,6 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#020409">
 <title>THE SYSTEM</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap');
@@ -401,6 +406,71 @@ header{margin-bottom:16px;}
 .levelup-box p{color:var(--text);font-size:13px;margin:4px 0;}
 
 footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:24px;letter-spacing:.05em;}
+
+/* ================= MOBILE (iPhone-width) ================= */
+@media(max-width:480px){
+  body{padding:12px 8px 40px;}
+  .wrap, .panel-view{max-width:100%;}
+  .hud-frame{padding:14px 14px;}
+
+  .title-row h1{font-size:20px;letter-spacing:.1em;}
+  .date-tag{font-size:10px;}
+  .rank-tag{font-size:10px;}
+
+  .xp-row{gap:8px;}
+  .lv-badge{font-size:13px;padding:3px 8px;}
+  .xp-label{font-size:10px;min-width:64px;}
+
+  .top-actions{gap:6px;}
+  .points-badge{font-size:12px;padding:4px 9px;}
+  .btn.small{padding:6px 10px;font-size:11px;}
+
+  .section-title{font-size:12px;}
+
+  .menu-grid{grid-template-columns:1fr;gap:10px;}
+  .menu-card{padding:18px 12px;}
+  .menu-icon{font-size:24px;margin-bottom:6px;}
+  .menu-label{font-size:14px;}
+  .menu-sub{font-size:10px;}
+
+  .quest-intro, .shop-intro{font-size:11px;}
+  .quest{padding:10px 11px;}
+  .q-name{font-size:13px;}
+  .q-count{font-size:12px;}
+  .q-actions .btn.small{padding:5px 8px;font-size:10px;}
+
+  .journey-stage{padding:11px 12px;}
+  .journey-title{font-size:14px;}
+  .journey-type{font-size:9px;padding:1px 6px;}
+  .journey-reward{font-size:10px;}
+
+  .shop-item{padding:8px 10px;}
+  .shop-item-icon{width:32px;height:32px;font-size:22px;}
+  .shop-item-name{font-size:13px;}
+  .add-item-form{gap:6px;}
+  .add-item-form input, .add-item-form select{font-size:11px;padding:6px 7px;}
+  .add-item-form input[name="iname"]{min-width:100%;order:-1;}
+
+  .inv-item{padding:8px 10px;gap:9px;}
+  .inv-icon{width:28px;height:28px;font-size:18px;}
+  .inv-name{font-size:12px;}
+
+  .stat-row{padding:6px 0;}
+  .stat-name{font-size:12px;}
+  .stat-val{font-size:14px;}
+  .streak-box{font-size:11px;}
+
+  .boot-terminal{font-size:13px;min-height:140px;}
+  .intake-grid{grid-template-columns:1fr;gap:0;}
+  .intake-row input, .intake-row select{font-size:13px;padding:8px 9px;}
+  .boot-btn{padding:9px 22px;font-size:13px;}
+
+  .use-box, .levelup-box{padding:22px 20px;max-width:92vw;}
+  .levelup-box h2{font-size:24px;}
+  .use-box .use-icon{font-size:28px;}
+
+  footer{font-size:9px;padding:0 6px;}
+}
 </style>
 </head>
 <body>
