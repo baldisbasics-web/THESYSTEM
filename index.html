@@ -32,7 +32,7 @@ body{
   color:var(--text);
   font-family:'Share Tech Mono', monospace;
   min-height:100vh;
-  padding:20px 14px 60px;
+  padding:calc(20px + env(safe-area-inset-top)) 14px calc(60px + env(safe-area-inset-bottom));
 }
 .disp{font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.06em;}
 
@@ -272,7 +272,8 @@ header{margin-bottom:16px;}
 /* ---------- use-confirmation modal ---------- */
 #use-overlay{
   position:fixed;inset:0;background:rgba(2,6,14,.85);display:none;
-  align-items:center;justify-content:center;z-index:110;padding:20px;
+  align-items:center;justify-content:center;z-index:110;
+  padding:calc(20px + env(safe-area-inset-top)) calc(20px + env(safe-area-inset-right)) calc(20px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-left));
 }
 .use-box{
   border:2px solid var(--rarity-c, var(--accent));padding:30px 34px;text-align:center;max-width:340px;
@@ -295,7 +296,8 @@ header{margin-bottom:16px;}
 /* ---------- boot / awakening sequence ---------- */
 #boot-overlay{
   position:fixed;inset:0;background:#000;display:none;
-  align-items:center;justify-content:center;z-index:200;padding:20px;
+  align-items:center;justify-content:center;z-index:200;
+  padding:calc(20px + env(safe-area-inset-top)) calc(20px + env(safe-area-inset-right)) calc(20px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-left));
 }
 #boot-overlay.active{display:flex;}
 .boot-box{max-width:560px;width:100%;text-align:left;}
@@ -328,6 +330,17 @@ header{margin-bottom:16px;}
 .intake-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;}
 .intake-note{font-size:11px;color:var(--text-dim);margin-top:2px;line-height:1.6;}
 .intake-submit{width:100%;margin-top:10px;padding:11px;font-size:14px;}
+
+.boot-skip{
+  position:absolute;
+  bottom:calc(16px + env(safe-area-inset-bottom));
+  right:calc(18px + env(safe-area-inset-right));
+  background:none;border:none;color:var(--text-dim);
+  font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  opacity:.3;cursor:pointer;padding:8px 10px;transition:opacity .2s, color .2s;
+}
+.boot-skip:hover{opacity:.8;color:var(--accent);}
+.boot-skip:active{opacity:1;}
 
 /* ---------- loading spinner ---------- */
 #loading-overlay{
@@ -492,6 +505,7 @@ footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:24px;le
 
 <div id="boot-overlay">
   <div class="boot-box" id="boot-box"></div>
+  <button class="boot-skip" onclick="skipBoot()">Skip</button>
 </div>
 
 <div id="use-overlay">
@@ -1500,6 +1514,22 @@ async function showFinalRegistration(profile, stats){
   return new Promise(resolve=>{
     document.getElementById('boot-begin').onclick = ()=>{ sfxClick(); resolve(); };
   });
+}
+
+async function skipBoot(){
+  sfxClick();
+  const defaultProfile = {age:28, sex:'other', height:175, weight:75, fitnessLevel:'intermediate'};
+  state.profile = defaultProfile;
+  state.stats = calculateBaselineStats(defaultProfile);
+  state.systemAccepted = true;
+  checkDailyReset();
+  await saveState();
+  document.getElementById('boot-overlay').classList.remove('active');
+  glitchElement(document.getElementById('app-wrap'));
+  render();
+  setTimeout(()=>{
+    notify('<b>Boot sequence skipped.</b><br>Default profile applied — fine-tune your stats anytime from Settings.');
+  }, 300);
 }
 
 async function firstBootFlow(){
