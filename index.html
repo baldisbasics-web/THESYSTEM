@@ -422,7 +422,7 @@ footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:24px;le
 
 /* ================= MOBILE (iPhone-width) ================= */
 @media(max-width:480px){
-  body{padding:12px 8px 40px;}
+  body{padding:calc(12px + env(safe-area-inset-top)) calc(8px + env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) calc(8px + env(safe-area-inset-left));}
   .wrap, .panel-view{max-width:100%;}
   .hud-frame{padding:14px 14px;}
 
