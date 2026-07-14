@@ -180,6 +180,19 @@ header{margin-bottom:16px;}
 .journey-cleared-tag{font-size:10px;color:#3cff8c;letter-spacing:.08em;margin-left:8px;}
 .journey-lock-note{font-size:12px;color:var(--text-dim);font-style:italic;}
 
+.journey-current-label{
+  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:11px;letter-spacing:.18em;
+  color:var(--gold);text-shadow:0 0 6px rgba(255,207,64,.5);margin-bottom:8px;
+}
+.completed-quests-wrap{margin-top:20px;padding-top:14px;border-top:1px dashed rgba(61,219,255,.2);}
+.completed-quests-toggle{
+  width:100%;text-align:left;background:none;border:none;cursor:pointer;
+  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:13px;letter-spacing:.08em;
+  color:var(--accent);text-shadow:0 0 6px rgba(61,219,255,.4);
+  padding:6px 2px;
+}
+.completed-quests-body{margin-top:10px;}
+
 /* ---------- stats sidebar ---------- */
 .stat-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px dashed rgba(61,219,255,.15);}
 .stat-row:last-child{border-bottom:none;}
@@ -549,7 +562,7 @@ footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:24px;le
         </button>
         <button class="menu-card" onclick="setView('journey')">
           <div class="menu-icon">🧭</div>
-          <div class="menu-label">The Journey</div>
+          <div class="menu-label">Quests</div>
           <div class="menu-sub" id="menu-sub-journey"></div>
         </button>
         <button class="menu-card" onclick="setView('status')">
@@ -588,13 +601,13 @@ footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:24px;le
     </div>
   </div>
 
-  <!-- ===== THE JOURNEY ===== -->
+  <!-- ===== QUESTS ===== -->
   <div class="panel-view" id="panel-journey">
     <button class="btn small back-btn" onclick="setView('menu')">← BACK TO MENU</button>
     <div class="hud-frame">
       <div class="corner c-tl"></div><div class="corner c-br"></div>
-      <div class="section-title">The Journey</div>
-      <div class="quest-intro">A fixed path of bodyweight and 12kg dumbbell workouts, each harder than the last. Clearing a stage for the first time unlocks the next and grants full rewards; repeating a cleared stage still pays out, just at half rate.</div>
+      <div class="section-title">Quests</div>
+      <div class="quest-intro">An endless path of bodyweight and dumbbell workouts (up to 12kg), each one harder than the last. Only your current quest is shown — the next one stays hidden until you clear this one. Cleared quests move into Completed Quests below, where you can still redo them anytime for half the reward.</div>
       <div id="journey-list"></div>
     </div>
   </div>
@@ -674,10 +687,10 @@ const EXERCISES = [
   {key:'run',     name:'Run',      stat:'VIT', unit:'km',   step:0.5},
 ];
 
-/* ---------------- the journey ----------------
-   A fixed, gradually-harder progression of bodyweight and 12kg-dumbbell
-   workouts. Each stage unlocks the next on first clear, and can be
-   repeated afterward for a smaller reward. */
+/* ---------------- quests ----------------
+   A progression of bodyweight and dumbbell workouts (up to 12kg), each
+   stage harder than the last. The first 10 are hand-built; every stage
+   after that is generated on the fly so the progression never runs out. */
 const JOURNEY_STAGES = [
   { id:'j1', name:'Foundations', type:'Bodyweight', skillPoints:2, pts:30,
     exercises:[
@@ -691,11 +704,11 @@ const JOURNEY_STAGES = [
       {key:'lg', name:'Lunges (each leg)', target:20, unit:'reps', step:5},
       {key:'mc', name:'Mountain Climbers', target:30, unit:'reps', step:10},
     ]},
-  { id:'j3', name:'First Weight', type:'12kg Dumbbell', skillPoints:3, pts:50,
+  { id:'j3', name:'First Weight', type:'Dumbbell', skillPoints:3, pts:50,
     exercises:[
-      {key:'gs', name:'DB Goblet Squats', target:12, unit:'reps', step:4},
-      {key:'rw', name:'DB Rows (each arm)', target:12, unit:'reps', step:4},
-      {key:'sp', name:'DB Shoulder Press', target:10, unit:'reps', step:5},
+      {key:'gs', name:'DB Goblet Squats (12kg)', target:12, unit:'reps', step:4},
+      {key:'rw', name:'DB Rows (each arm, 10kg)', target:12, unit:'reps', step:4},
+      {key:'sp', name:'DB Shoulder Press (8kg)', target:10, unit:'reps', step:5},
     ]},
   { id:'j4', name:'Endurance I', type:'Bodyweight', skillPoints:4, pts:60,
     exercises:[
@@ -703,11 +716,11 @@ const JOURNEY_STAGES = [
       {key:'sq', name:'Bodyweight Squats', target:30, unit:'reps', step:10},
       {key:'pl', name:'Plank Hold', target:45, unit:'sec', step:15},
     ]},
-  { id:'j5', name:'Dumbbell Power', type:'12kg Dumbbell', skillPoints:4, pts:70,
+  { id:'j5', name:'Dumbbell Power', type:'Dumbbell', skillPoints:4, pts:70,
     exercises:[
-      {key:'dl', name:'DB Deadlifts', target:15, unit:'reps', step:5},
-      {key:'lg', name:'DB Lunges (each leg)', target:12, unit:'reps', step:4},
-      {key:'op', name:'DB Overhead Press', target:12, unit:'reps', step:4},
+      {key:'dl', name:'DB Deadlifts (12kg)', target:15, unit:'reps', step:5},
+      {key:'lg', name:'DB Lunges (each leg, 10kg)', target:12, unit:'reps', step:4},
+      {key:'op', name:'DB Overhead Press (8kg)', target:12, unit:'reps', step:4},
     ]},
   { id:'j6', name:'Core Forge', type:'Bodyweight', skillPoints:5, pts:90,
     exercises:[
@@ -715,11 +728,11 @@ const JOURNEY_STAGES = [
       {key:'lr', name:'Leg Raises', target:20, unit:'reps', step:5},
       {key:'sd', name:'Side Plank (each side)', target:30, unit:'sec', step:10},
     ]},
-  { id:'j7', name:'Combo Strike', type:'12kg Dumbbell', skillPoints:5, pts:100,
+  { id:'j7', name:'Combo Strike', type:'Dumbbell', skillPoints:5, pts:100,
     exercises:[
-      {key:'th', name:'DB Thrusters', target:15, unit:'reps', step:5},
-      {key:'rr', name:'Renegade Rows (each side)', target:10, unit:'reps', step:2},
-      {key:'sw', name:'DB Swings', target:20, unit:'reps', step:5},
+      {key:'th', name:'DB Thrusters (10kg)', target:15, unit:'reps', step:5},
+      {key:'rr', name:'Renegade Rows (each side, 8kg)', target:10, unit:'reps', step:2},
+      {key:'sw', name:'DB Swings (10kg)', target:20, unit:'reps', step:5},
     ]},
   { id:'j8', name:'Endurance II', type:'Bodyweight', skillPoints:6, pts:120,
     exercises:[
@@ -727,20 +740,124 @@ const JOURNEY_STAGES = [
       {key:'sq', name:'Bodyweight Squats', target:45, unit:'reps', step:15},
       {key:'bp', name:'Burpees', target:15, unit:'reps', step:5},
     ]},
-  { id:'j9', name:'Full Circuit', type:'12kg Dumbbell', skillPoints:6, pts:140,
+  { id:'j9', name:'Full Circuit', type:'Dumbbell', skillPoints:6, pts:140,
     exercises:[
-      {key:'gs', name:'DB Goblet Squats', target:20, unit:'reps', step:5},
-      {key:'sn', name:'DB Snatch (each arm)', target:12, unit:'reps', step:4},
-      {key:'rw', name:'DB Rows (each arm)', target:15, unit:'reps', step:5},
+      {key:'gs', name:'DB Goblet Squats (12kg)', target:20, unit:'reps', step:5},
+      {key:'sn', name:'DB Snatch (each arm, 8kg)', target:12, unit:'reps', step:4},
+      {key:'rw', name:'DB Rows (each arm, 10kg)', target:15, unit:'reps', step:5},
     ]},
   { id:'j10', name:'Ascension', type:'Mixed', skillPoints:8, pts:180,
     exercises:[
       {key:'pu', name:'Push-Ups', target:60, unit:'reps', step:15},
       {key:'sq', name:'Bodyweight Squats', target:60, unit:'reps', step:15},
-      {key:'th', name:'DB Thrusters', target:20, unit:'reps', step:5},
+      {key:'th', name:'DB Thrusters (10kg)', target:20, unit:'reps', step:5},
       {key:'pl', name:'Plank Hold', target:60, unit:'sec', step:15},
     ]},
 ];
+
+/* ---------------- infinite quest generation ----------------
+   Beyond the hand-built 10 stages, quests are generated deterministically
+   from exercise pools so the same index always produces the same stage,
+   but the progression never ends and keeps getting harder. */
+const BODYWEIGHT_POOL = [
+  {key:'pu', name:'Push-Ups', unit:'reps', base:15, growth:1.3, step:5},
+  {key:'sq', name:'Bodyweight Squats', unit:'reps', base:15, growth:1.3, step:5},
+  {key:'lg', name:'Lunges (each leg)', unit:'reps', base:12, growth:1.1, step:4},
+  {key:'si', name:'Sit-Ups', unit:'reps', base:15, growth:1.2, step:5},
+  {key:'lr', name:'Leg Raises', unit:'reps', base:12, growth:1.0, step:4},
+  {key:'mc', name:'Mountain Climbers', unit:'reps', base:20, growth:1.6, step:10},
+  {key:'bp', name:'Burpees', unit:'reps', base:8, growth:0.9, step:4},
+  {key:'pl', name:'Plank Hold', unit:'sec', base:20, growth:1.5, step:10},
+  {key:'sd', name:'Side Plank (each side)', unit:'sec', base:20, growth:1.2, step:10},
+  {key:'jj', name:'Jumping Jacks', unit:'reps', base:25, growth:1.8, step:10},
+  {key:'hk', name:'High Knees', unit:'reps', base:20, growth:1.5, step:10},
+  {key:'ws', name:'Wall Sit', unit:'sec', base:20, growth:1.3, step:10},
+  {key:'dp', name:'Chair Dips', unit:'reps', base:8, growth:0.8, step:4},
+  {key:'su', name:'Superman Hold', unit:'sec', base:15, growth:1.0, step:5},
+];
+const DUMBBELL_POOL = [
+  {key:'gs', name:'DB Goblet Squats', unit:'reps', base:10, growth:1.0, step:4, weight:12},
+  {key:'rw', name:'DB Rows (each arm)', unit:'reps', base:10, growth:1.0, step:4, weight:10},
+  {key:'sp', name:'DB Shoulder Press', unit:'reps', base:8, growth:0.8, step:4, weight:8},
+  {key:'dl', name:'DB Deadlifts', unit:'reps', base:12, growth:1.0, step:4, weight:12},
+  {key:'lg2', name:'DB Lunges (each leg)', unit:'reps', base:10, growth:0.9, step:4, weight:10},
+  {key:'op', name:'DB Overhead Press', unit:'reps', base:10, growth:0.8, step:4, weight:8},
+  {key:'th', name:'DB Thrusters', unit:'reps', base:12, growth:1.0, step:5, weight:10},
+  {key:'rr', name:'Renegade Rows (each side)', unit:'reps', base:8, growth:0.6, step:2, weight:8},
+  {key:'sw', name:'DB Swings', unit:'reps', base:15, growth:1.2, step:5, weight:10},
+  {key:'sn', name:'DB Snatch (each arm)', unit:'reps', base:10, growth:0.8, step:4, weight:8},
+  {key:'cu', name:'DB Bicep Curls', unit:'reps', base:12, growth:1.0, step:4, weight:6},
+  {key:'tk', name:'DB Tricep Kickbacks (each arm)', unit:'reps', base:10, growth:0.8, step:4, weight:6},
+  {key:'fr', name:'DB Lateral Raises', unit:'reps', base:12, growth:0.8, step:4, weight:6},
+  {key:'su2', name:'DB Step-Ups (each leg)', unit:'reps', base:10, growth:0.9, step:4, weight:10},
+];
+const STAGE_ADJ = ['Iron','Steel','Shadow','Storm','Ember','Frost','Thunder','Crimson','Void','Solar','Titan','Phantom','Rogue','Obsidian','Radiant','Grim','Silent','Feral','Astral','Molten'];
+const STAGE_NOUN = ['Trial','Ascent','Gauntlet','Crucible','Reckoning','Vanguard','Bastion','Surge','Oath','Legacy','Descent','Awakening','Siege','Verdict','Passage','Rift','Zenith','Hollow','Vigil','Eclipse'];
+
+function pickFromPool(pool, seed, count){
+  const chosen = [];
+  const step = 1 + (seed % 4);
+  let i = seed % pool.length;
+  let guard = 0;
+  while(chosen.length < count && guard < pool.length*3){
+    const candidate = pool[i % pool.length];
+    if(!chosen.includes(candidate)) chosen.push(candidate);
+    i += step;
+    guard++;
+  }
+  return chosen;
+}
+
+function scaledTarget(ex, idx){
+  const raw = ex.base + ex.growth * (2 + Math.sqrt(Math.max(0, idx)) * 2.2);
+  return ex.unit === 'sec' ? Math.round(raw/5)*5 : Math.round(raw);
+}
+
+function generateStageName(genIdx){
+  const adj = STAGE_ADJ[genIdx % STAGE_ADJ.length];
+  const noun = STAGE_NOUN[(genIdx*7 + 3) % STAGE_NOUN.length];
+  return `${adj} ${noun}`;
+}
+
+function generateStage(idx){
+  const g = idx - JOURNEY_STAGES.length;
+  const cyclePos = g % 3;
+  const type = cyclePos===0 ? 'Bodyweight' : (cyclePos===1 ? 'Dumbbell' : 'Mixed');
+  const exerciseCount = g < 15 ? 3 : 4;
+
+  let picks;
+  if(type==='Bodyweight'){
+    picks = pickFromPool(BODYWEIGHT_POOL, g, exerciseCount);
+  } else if(type==='Dumbbell'){
+    picks = pickFromPool(DUMBBELL_POOL, g, exerciseCount);
+  } else {
+    const half = Math.ceil(exerciseCount/2);
+    picks = pickFromPool(BODYWEIGHT_POOL, g, half).concat(pickFromPool(DUMBBELL_POOL, g+2, exerciseCount-half));
+  }
+
+  const exercises = picks.map(ex=>({
+    key: ex.key,
+    name: ex.weight ? `${ex.name} (${ex.weight}kg)` : ex.name,
+    unit: ex.unit,
+    target: scaledTarget(ex, idx),
+    step: ex.step
+  }));
+
+  return {
+    id: 'gen'+idx,
+    name: generateStageName(g),
+    type,
+    skillPoints: 8 + Math.floor((idx-9)*0.8),
+    pts: Math.round(180 + (idx-9)*20),
+    exercises,
+    generated: true
+  };
+}
+
+function getStage(idx){
+  if(idx < JOURNEY_STAGES.length) return JOURNEY_STAGES[idx];
+  return generateStage(idx);
+}
 
 /* ---------------- glitch transition helper ---------------- */
 function glitchElement(el){
@@ -969,7 +1086,7 @@ function defaultState(){
     inventory:[],
     systemAccepted:false,
     profile:{age:null,height:null,weight:null,sex:null,fitnessLevel:'intermediate'},
-    journey:{unlockedCount:1, progress:{}, completedOnce:{}, timesCompleted:{}}
+    journey:{currentIndex:0, progress:{}, completedOnce:{}, timesCompleted:{}}
   };
 }
 
@@ -1038,7 +1155,11 @@ async function loadState(){
     });
   }
   if(!state.journey){
-    state.journey = {unlockedCount:1, progress:{}, completedOnce:{}, timesCompleted:{}};
+    state.journey = {currentIndex:0, progress:{}, completedOnce:{}, timesCompleted:{}};
+  } else if(state.journey.currentIndex === undefined){
+    // migrate from the old unlockedCount model
+    state.journey.currentIndex = Math.max(0, (state.journey.unlockedCount || 1) - 1);
+    delete state.journey.unlockedCount;
   }
 }
 
@@ -1174,8 +1295,9 @@ function journeyStageDone(stage){
 }
 
 function journeyAddProgress(stageIdx, exKey, amt){
-  const stage = JOURNEY_STAGES[stageIdx];
-  if(!stage || stageIdx >= state.journey.unlockedCount) return;
+  if(stageIdx > state.journey.currentIndex) return; // future quests are never interactable
+  const stage = getStage(stageIdx);
+  if(!stage) return;
   if(!state.journey.progress[stage.id]) state.journey.progress[stage.id] = {};
   const ex = stage.exercises.find(e=>e.key===exKey);
   const cur = state.journey.progress[stage.id][exKey] || 0;
@@ -1202,8 +1324,8 @@ function allExercisesWereAlreadyCleared(stage, justUpdatedKey, wasDoneBeforeThis
 }
 
 function completeJourneyStage(stageIdx){
-  const stage = JOURNEY_STAGES[stageIdx];
-  const firstTime = !state.journey.completedOnce[stage.id];
+  const stage = getStage(stageIdx);
+  const firstTime = stageIdx === state.journey.currentIndex;
   const xpReward = firstTime ? stage.skillPoints*10 : Math.max(5, Math.round((stage.skillPoints*10)/2));
   const rewardPts = firstTime ? stage.pts : Math.round(stage.pts/2);
 
@@ -1212,9 +1334,7 @@ function completeJourneyStage(stageIdx){
 
   if(firstTime){
     state.journey.completedOnce[stage.id] = true;
-    if(stageIdx + 1 >= state.journey.unlockedCount && stageIdx + 1 < JOURNEY_STAGES.length){
-      state.journey.unlockedCount = stageIdx + 2;
-    }
+    state.journey.currentIndex += 1;
   }
   state.journey.timesCompleted[stage.id] = (state.journey.timesCompleted[stage.id] || 0) + 1;
 
@@ -1223,8 +1343,8 @@ function completeJourneyStage(stageIdx){
 
   saveState();
   sfxQuestClear();
-  const nextUnlockedMsg = (firstTime && stageIdx+1 < JOURNEY_STAGES.length) ? ` Stage unlocked: ${JOURNEY_STAGES[stageIdx+1].name}.` : '';
-  notify(`<b>JOURNEY STAGE CLEARED: ${stage.name}</b><br>+${xpReward} XP · +${rewardPts} PTS${nextUnlockedMsg}`);
+  const nextMsg = firstTime ? ` Next quest revealed.` : '';
+  notify(`<b>QUEST CLEARED: ${stage.name}</b><br>+${xpReward} XP · +${rewardPts} PTS${nextMsg}`);
   render();
 }
 
@@ -1564,6 +1684,12 @@ function setOverride(key, val){
 /* ---------------- status window toggle ---------------- */
 /* ---------------- view navigation ---------------- */
 let currentView = 'menu';
+let completedQuestsOpen = false;
+function toggleCompletedQuestsSection(){
+  sfxClick();
+  completedQuestsOpen = !completedQuestsOpen;
+  render();
+}
 function setView(view){
   sfxClick();
   currentView = view;
@@ -1587,7 +1713,7 @@ function updateMenuSubtext(){
   document.getElementById('menu-sub-shop').textContent = `${state.points} PTS available`;
   const clearedCount = Object.keys(state.journey.completedOnce).length;
   document.getElementById('menu-sub-journey').textContent =
-    `Stage ${state.journey.unlockedCount} of ${JOURNEY_STAGES.length} unlocked · ${clearedCount} cleared`;
+    `Quest ${state.journey.currentIndex + 1} · ${clearedCount} cleared`;
 }
 
 /* ---------------- reset ---------------- */
@@ -1664,28 +1790,13 @@ function render(){
     }
   });
 
-  // journey
-  const jlist = document.getElementById('journey-list');
-  jlist.innerHTML = '';
-  JOURNEY_STAGES.forEach((stage, idx)=>{
-    const locked = idx >= state.journey.unlockedCount;
-    const card = document.createElement('div');
-    card.className = 'journey-stage' + (locked ? ' locked' : '');
-
-    if(locked){
-      card.innerHTML = `
-        <div class="journey-head">
-          <div class="journey-title">🔒 ${stage.name}</div>
-          <div class="journey-type">${stage.type}</div>
-        </div>
-        <div class="journey-lock-note">Locked — clear the previous stage to unlock.</div>
-      `;
-      jlist.appendChild(card);
-      return;
-    }
-
+  // quests (the journey)
+  function buildStageCard(idx, stage){
     const cleared = !!state.journey.completedOnce[stage.id];
     const timesDone = state.journey.timesCompleted[stage.id] || 0;
+    const card = document.createElement('div');
+    card.className = 'journey-stage';
+
     const head = document.createElement('div');
     head.className = 'journey-head';
     head.innerHTML = `
@@ -1738,8 +1849,45 @@ function render(){
       }
     });
 
-    jlist.appendChild(card);
-  });
+    return card;
+  }
+
+  const jlist = document.getElementById('journey-list');
+  jlist.innerHTML = '';
+
+  // current quest — the only "new" quest ever shown
+  const curIdx = state.journey.currentIndex;
+  const curStage = getStage(curIdx);
+  const curLabel = document.createElement('div');
+  curLabel.className = 'journey-current-label';
+  curLabel.textContent = 'CURRENT QUEST';
+  jlist.appendChild(curLabel);
+  jlist.appendChild(buildStageCard(curIdx, curStage));
+
+  // completed quests — collapsible, most recent first, still repeatable
+  const completedCount = curIdx;
+  if(completedCount > 0){
+    const wrap = document.createElement('div');
+    wrap.className = 'completed-quests-wrap';
+
+    const header = document.createElement('button');
+    header.type = 'button';
+    header.className = 'completed-quests-toggle';
+    header.innerHTML = `<span>${completedQuestsOpen ? '▼' : '▶'} Completed Quests (${completedCount})</span>`;
+    header.onclick = toggleCompletedQuestsSection;
+    wrap.appendChild(header);
+
+    if(completedQuestsOpen){
+      const body = document.createElement('div');
+      body.className = 'completed-quests-body';
+      for(let i = curIdx - 1; i >= 0; i--){
+        body.appendChild(buildStageCard(i, getStage(i)));
+      }
+      wrap.appendChild(body);
+    }
+
+    jlist.appendChild(wrap);
+  }
 
   // settings
   const slist = document.getElementById('settings-list');
