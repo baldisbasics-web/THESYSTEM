@@ -194,6 +194,21 @@ header{margin-bottom:16px;}
 .completed-quests-body{margin-top:10px;}
 
 /* ---------- stats sidebar ---------- */
+.status-name{
+  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:22px;letter-spacing:.05em;
+  color:var(--accent);text-shadow:0 0 10px rgba(61,219,255,.6);margin-bottom:2px;
+}
+.status-level{font-size:12px;color:var(--text-dim);letter-spacing:.08em;margin-bottom:14px;}
+
+.hp-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.hp-label{
+  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:13px;letter-spacing:.1em;
+  color:#ff5470;text-shadow:0 0 6px rgba(255,84,112,.5);flex:none;
+}
+.hp-bar-outer{flex:1;height:11px;background:#0a1626;border:1px solid rgba(255,84,112,.35);overflow:hidden;}
+.hp-bar-inner{height:100%;background:linear-gradient(90deg,#a3132f,#ff5470);box-shadow:0 0 8px rgba(255,84,112,.6);transition:width .6s ease;}
+.hp-value{font-size:12px;color:#ff8fa3;min-width:64px;text-align:right;flex:none;}
+
 .stat-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px dashed rgba(61,219,255,.15);}
 .stat-row:last-child{border-bottom:none;}
 .stat-name{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:13px;color:var(--text-dim);letter-spacing:.08em;}
@@ -238,6 +253,11 @@ header{margin-bottom:16px;}
   color:var(--rarity-c, var(--text-dim));font-weight:600;margin-top:2px;
   font-family:'Rajdhani',sans-serif;
 }
+@keyframes mythicPulse{
+  0%,100%{ box-shadow:0 0 12px -6px var(--rarity-c); }
+  50%{ box-shadow:0 0 24px 0px var(--rarity-c); }
+}
+.mythic-pulse{ animation: mythicPulse 1.8s ease-in-out infinite; }
 .shop-item-actions{display:flex;gap:6px;align-items:center;flex:none;}
 .shop-del{background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:14px;padding:2px 6px;}
 .shop-del:hover{color:var(--warn);}
@@ -481,6 +501,10 @@ footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:24px;le
   .inv-icon{width:28px;height:28px;font-size:18px;}
   .inv-name{font-size:12px;}
 
+  .status-name{font-size:18px;}
+  .status-level{font-size:11px;}
+  .hp-label{font-size:11px;}
+  .hp-value{font-size:11px;min-width:56px;}
   .stat-row{padding:6px 0;}
   .stat-name{font-size:12px;}
   .stat-val{font-size:14px;}
@@ -567,7 +591,7 @@ footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:24px;le
         </button>
         <button class="menu-card" onclick="setView('status')">
           <div class="menu-icon">📊</div>
-          <div class="menu-label">Status Window</div>
+          <div class="menu-label">Status</div>
           <div class="menu-sub" id="menu-sub-status"></div>
         </button>
         <button class="menu-card" onclick="setView('inventory')">
@@ -618,6 +642,12 @@ footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:24px;le
     <div class="hud-frame">
       <div class="corner c-tl"></div><div class="corner c-br"></div>
       <div class="section-title">Settings</div>
+
+      <div class="intake-row" style="margin-bottom:18px;">
+        <label style="display:block;font-size:11px;letter-spacing:.1em;color:var(--text-dim);text-transform:uppercase;margin-bottom:5px;">Player Name</label>
+        <input type="text" id="settings-name-input" maxlength="24" style="width:100%;background:#0a1626;border:1px solid var(--accent-dim);color:var(--text);font-family:'Share Tech Mono',monospace;padding:9px 10px;font-size:14px;">
+      </div>
+
       <div style="font-size:12px;color:var(--text-dim);margin-bottom:10px;">Adjust today's targets manually if the auto-scaled numbers don't fit you.</div>
       <div id="settings-list"></div>
     </div>
@@ -629,7 +659,7 @@ footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:24px;le
     <div class="hud-frame">
       <div class="corner c-tl"></div><div class="corner c-br"></div>
       <div class="section-title">Reward Shop</div>
-      <div class="shop-intro">Clearing an objective earns <b>10 PTS</b>. Clearing the full Daily Quest earns a <b>40 PTS</b> bonus (halved during a Penalty). Spend points to stock up on treats, then use them from your Inventory whenever you want.</div>
+      <div class="shop-intro">Clearing an objective earns <b>10 PTS</b>. Clearing the full Daily Quest earns a <b>40 PTS</b> bonus (halved during a Penalty). Spend points to stock up on treats, then use them from your Inventory whenever you want. Prices creep up as your level rises — shown prices always reflect your current level.</div>
       <div id="shop-list"></div>
       <form class="add-item-form" id="add-item-form">
         <input type="text" name="iicon" placeholder="🍰" maxlength="2">
@@ -640,22 +670,30 @@ footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:24px;le
           <option value="rare">Rare</option>
           <option value="epic">Epic</option>
           <option value="legendary">Legendary</option>
+          <option value="mythic">Mythic</option>
         </select>
         <button type="submit" class="btn small gold">ADD ITEM</button>
       </form>
       <div class="history-list">
-        <div class="section-title" style="border:none;font-size:12px;margin-bottom:8px;">Activity Log</div>
+        <button type="button" class="completed-quests-toggle" id="activity-log-toggle" onclick="toggleActivityLog()"></button>
         <div id="history-list"></div>
       </div>
     </div>
   </div>
 
-  <!-- ===== STATUS WINDOW ===== -->
+  <!-- ===== STATUS ===== -->
   <div class="panel-view" id="panel-status">
     <button class="btn small back-btn" onclick="setView('menu')">← BACK TO MENU</button>
     <div class="hud-frame">
       <div class="corner c-tl"></div><div class="corner c-br"></div>
-      <div class="section-title">Status Window</div>
+      <div class="section-title">Status</div>
+      <div class="status-name" id="status-name"></div>
+      <div class="status-level" id="status-level"></div>
+      <div class="hp-row">
+        <div class="hp-label">HP</div>
+        <div class="hp-bar-outer"><div class="hp-bar-inner" id="hp-bar-inner"></div></div>
+        <div class="hp-value" id="hp-value"></div>
+      </div>
       <div id="stat-list"></div>
       <div class="points-note" id="points-note"></div>
       <div class="streak-box">
@@ -1078,14 +1116,25 @@ function defaultState(){
     soundEnabled:true,
     shopItems:[
       {id:'seed1', name:'Coffee / Iced Coffee', cost:20, icon:'☕', rarity:'common'},
-      {id:'seed2', name:'A Slice of Cake', cost:60, icon:'🍰', rarity:'rare'},
-      {id:'seed3', name:'Takeout Night', cost:120, icon:'🍱', rarity:'epic'},
-      {id:'seed4', name:'Soda / Sweet Drink', cost:25, icon:'🥤', rarity:'common'}
+      {id:'seed2', name:'Soda / Sweet Drink', cost:25, icon:'🥤', rarity:'common'},
+      {id:'seed3', name:'Candy / Sweet Treat', cost:15, icon:'🍬', rarity:'common'},
+      {id:'seed4', name:'Small Snack', cost:30, icon:'🍟', rarity:'common'},
+      {id:'seed5', name:'A Slice of Cake', cost:60, icon:'🍰', rarity:'rare'},
+      {id:'seed6', name:'Ice Cream', cost:55, icon:'🍨', rarity:'rare'},
+      {id:'seed7', name:'Movie Rental / Ticket', cost:70, icon:'🎬', rarity:'rare'},
+      {id:'seed8', name:'Takeout Night', cost:120, icon:'🍱', rarity:'epic'},
+      {id:'seed9', name:'New Game / App Purchase', cost:150, icon:'🎮', rarity:'epic'},
+      {id:'seed10', name:'New Gear / Small Splurge', cost:160, icon:'👟', rarity:'epic'},
+      {id:'seed11', name:'Concert / Event Ticket', cost:300, icon:'🎫', rarity:'legendary'},
+      {id:'seed12', name:'Weekend Trip Fund', cost:350, icon:'🧳', rarity:'legendary'},
+      {id:'seed13', name:'Cheat Day Pass', cost:750, icon:'🍔', rarity:'mythic'}
     ],
     purchaseHistory:[],
     inventory:[],
     systemAccepted:false,
     profile:{age:null,height:null,weight:null,sex:null,fitnessLevel:'intermediate'},
+    playerName:'Player',
+    hp:100,
     journey:{currentIndex:0, progress:{}, completedOnce:{}, timesCompleted:{}}
   };
 }
@@ -1153,6 +1202,14 @@ async function loadState(){
       if(!item.icon) item.icon = '🎁';
       if(!item.rarity) item.rarity = 'common';
     });
+    // add any new default seed items, but only once — so deleting a
+    // default item on purpose doesn't cause it to reappear later
+    if(state.shopSeedVersion === undefined){
+      d.shopItems.forEach(seed=>{
+        if(!state.shopItems.some(i=>i.id===seed.id)) state.shopItems.push(seed);
+      });
+      state.shopSeedVersion = 1;
+    }
   }
   if(!state.journey){
     state.journey = {currentIndex:0, progress:{}, completedOnce:{}, timesCompleted:{}};
@@ -1161,6 +1218,12 @@ async function loadState(){
     state.journey.currentIndex = Math.max(0, (state.journey.unlockedCount || 1) - 1);
     delete state.journey.unlockedCount;
   }
+  if(!state.playerName) state.playerName = 'Player';
+  if(state.hpInitialized === undefined){
+    state.hp = calcMaxHP();
+    state.hpInitialized = true;
+  }
+  state.hp = Math.max(0, Math.min(calcMaxHP(), state.hp));
 }
 
 async function saveState(){
@@ -1208,6 +1271,7 @@ function addProgress(key, amt){
   state.progress[key] = Math.min(t, Math.round((state.progress[key]+amt)*100)/100);
   const nowKeyDone = state.progress[key] >= t;
   sfxTick();
+  drainHP(amt);
   if(nowKeyDone && !wasKeyDone){
     const earned = state.penaltyActive ? 5 : 10;
     state.points += earned;
@@ -1306,6 +1370,7 @@ function journeyAddProgress(stageIdx, exKey, amt){
   state.journey.progress[stage.id][exKey] = next;
   const nowDone = next >= ex.target;
   sfxTick();
+  drainHP(amt);
   if(nowDone && !wasDone){
     sfxObjectiveClear();
   }
@@ -1353,27 +1418,35 @@ const RARITY_COLORS = {
   common:'#8a99ad',
   rare:'#3ddbff',
   epic:'#b46dff',
-  legendary:'#ffcf40'
+  legendary:'#ffcf40',
+  mythic:'#ff2d6a'
 };
+
+// Shop prices creep up as you level — the base cost stored on each item is
+// the level-1 price; this scales it to the current cost.
+function shopItemCost(item){
+  return Math.round(item.cost * (1 + (state.level - 1) * 0.04));
+}
 
 function buyItem(id){
   const item = state.shopItems.find(i=>i.id===id);
   if(!item) return;
-  if(state.points < item.cost){
+  const cost = shopItemCost(item);
+  if(state.points < cost){
     sfxDeny();
-    notify(`<b>Insufficient points.</b><br>Need ${item.cost - state.points} more PTS.`);
+    notify(`<b>Insufficient points.</b><br>Need ${cost - state.points} more PTS.`);
     return;
   }
-  state.points -= item.cost;
+  state.points -= cost;
   let entry = state.inventory.find(i=>i.id===item.id);
   if(entry){ entry.qty += 1; }
   else { state.inventory.push({id:item.id, name:item.name, icon:item.icon, rarity:item.rarity, qty:1}); }
-  state.purchaseHistory.unshift({type:'stocked', name:item.name, icon:item.icon, cost:item.cost, date:new Date().toLocaleDateString()});
-  state.purchaseHistory = state.purchaseHistory.slice(0,15);
+  state.purchaseHistory.unshift({type:'stocked', name:item.name, icon:item.icon, cost:cost, date:new Date().toLocaleDateString()});
+  state.purchaseHistory = state.purchaseHistory.slice(0,60);
   saveState();
   render();
   sfxPurchase();
-  notify(`<b>Stocked:</b> ${item.icon||''} ${item.name}<br>-${item.cost} PTS`);
+  notify(`<b>Stocked:</b> ${item.icon||''} ${item.name}<br>-${cost} PTS`);
 }
 
 function addShopItem(name, cost, icon, rarity){
@@ -1479,7 +1552,7 @@ async function runBootSequence(){
   const overlay = document.getElementById('boot-overlay');
   const box = document.getElementById('boot-box');
   overlay.classList.add('active');
-  glitchElement(overlay);
+  glitchElement(box);
 
   const term = document.createElement('div');
   term.className = 'boot-terminal';
@@ -1563,6 +1636,12 @@ async function runIntakeForm(){
   ]);
   await new Promise(r=>setTimeout(r, 700));
 
+  const name = await askIntakeQuestion(
+    'What should the System call you?',
+    '<input type="text" name="val" maxlength="24" placeholder="Your name" required autocomplete="off">',
+    v=>v.trim().slice(0,24) || 'Player', 'NEXT'
+  );
+
   const age = await askIntakeQuestion(
     'State your age.',
     '<input type="number" name="val" min="10" max="100" required>',
@@ -1597,7 +1676,7 @@ async function runIntakeForm(){
     v=>v, 'CONFIRM'
   );
 
-  return {age, sex, height, weight, fitnessLevel};
+  return {name, age, sex, height, weight, fitnessLevel};
 }
 
 function calculateBaselineStats(profile){
@@ -1614,6 +1693,85 @@ function calculateBaselineStats(profile){
   return {STR, AGI, VIT, INT, PER};
 }
 
+// Max HP is a stand-in for real-world condition: it grows with Vitality
+// (which itself was seeded from your actual BMI at registration) and level.
+function calcMaxHP(){
+  const vit = (state.stats && state.stats.VIT) || 10;
+  return Math.round(50 + vit*3 + state.level*2);
+}
+
+/* ---------------- HP drain / regen / rapid-loss watchdog ---------------- */
+let hpLossTimestamps = [];
+let hasShownRapidWarning = false;
+
+function drainHP(effortAmt){
+  const before = state.hp;
+  const loss = Math.max(1, Math.round(effortAmt * 0.12));
+  state.hp = Math.max(0, state.hp - loss);
+  if(state.hp < before){
+    updateHPDisplay();
+    trackHPLoss();
+  }
+}
+
+function trackHPLoss(){
+  const now = Date.now();
+  hpLossTimestamps.push(now);
+  hpLossTimestamps = hpLossTimestamps.filter(t => now - t < 4000);
+  if(hpLossTimestamps.length >= 6){
+    hpLossTimestamps = [];
+    if(!hasShownRapidWarning){
+      hasShownRapidWarning = true;
+      showRapidLossWarning();
+    } else {
+      showRapidLossError();
+    }
+  }
+}
+
+function startHPRegen(){
+  setInterval(()=>{
+    if(!state) return;
+    const max = calcMaxHP();
+    if(state.hp < max){
+      state.hp = Math.min(max, state.hp + 1);
+      saveState();
+      updateHPDisplay();
+    }
+  }, 4000);
+}
+
+function updateHPDisplay(){
+  const bar = document.getElementById('hp-bar-inner');
+  const val = document.getElementById('hp-value');
+  if(!bar || !val || !state) return;
+  const max = calcMaxHP();
+  bar.style.width = Math.min(100, (state.hp/max)*100) + '%';
+  val.textContent = `${state.hp} / ${max}`;
+}
+
+async function showRapidLossWarning(){
+  const overlay = document.getElementById('boot-overlay');
+  const box = document.getElementById('boot-box');
+  overlay.classList.add('active');
+  box.innerHTML = '';
+  const term = document.createElement('div');
+  term.className = 'boot-terminal';
+  box.appendChild(term);
+  await typeLines(term, [
+    'I know what you\'re doing.',
+    'Don\'t.'
+  ], 45);
+  await new Promise(r=>setTimeout(r, 1600));
+  overlay.classList.remove('active');
+  box.innerHTML = '';
+}
+
+function showRapidLossError(){
+  notify(`<b style="color:#ff5470;">⚠ SYSTEM WARNING</b><br>Overexertion detected. Slow down.`);
+  sfxDeny();
+}
+
 async function showFinalRegistration(profile, stats){
   const box = document.getElementById('boot-box');
   glitchElement(box);
@@ -1625,7 +1783,7 @@ async function showFinalRegistration(profile, stats){
     'Baseline statistics calculated.',
     `STR ${stats.STR}   AGI ${stats.AGI}   VIT ${stats.VIT}   INT ${stats.INT}   PER ${stats.PER}`,
     'Registration complete.',
-    'Welcome to the System.'
+    `Welcome to the System, ${profile.name || 'Player'}.`
   ]);
   const actions = document.createElement('div');
   actions.className = 'boot-actions';
@@ -1663,8 +1821,11 @@ async function firstBootFlow(){
   const stats = calculateBaselineStats(profile);
   state.profile = profile;
   state.stats = stats;
+  state.playerName = profile.name || 'Player';
   state.systemAccepted = true;
   checkDailyReset();
+  state.hp = calcMaxHP();
+  state.hpInitialized = true;
   await saveState();
   await showFinalRegistration(profile, stats);
   document.getElementById('boot-overlay').classList.remove('active');
@@ -1688,6 +1849,13 @@ let completedQuestsOpen = false;
 function toggleCompletedQuestsSection(){
   sfxClick();
   completedQuestsOpen = !completedQuestsOpen;
+  render();
+}
+
+let activityLogOpen = false;
+function toggleActivityLog(){
+  sfxClick();
+  activityLogOpen = !activityLogOpen;
   render();
 }
 function setView(view){
@@ -1905,6 +2073,16 @@ function render(){
     slist.appendChild(row);
   });
 
+  // status: name, level, HP
+  document.getElementById('status-name').textContent = state.playerName || 'Player';
+  document.getElementById('status-level').textContent = `LV ${state.level} · ${rankForLevel(state.level)}`;
+  updateHPDisplay();
+
+  const nameInput = document.getElementById('settings-name-input');
+  if(nameInput && document.activeElement !== nameInput){
+    nameInput.value = state.playerName || 'Player';
+  }
+
   // stats
   const statlist = document.getElementById('stat-list');
   statlist.innerHTML = '';
@@ -1940,10 +2118,11 @@ function render(){
     shopList.innerHTML = '<div class="empty-note">No items yet. Add a treat below.</div>';
   }
   state.shopItems.forEach(item=>{
-    const afford = state.points >= item.cost;
+    const liveCost = shopItemCost(item);
+    const afford = state.points >= liveCost;
     const rarityColor = RARITY_COLORS[item.rarity] || RARITY_COLORS.common;
     const row = document.createElement('div');
-    row.className = 'shop-item';
+    row.className = 'shop-item' + (item.rarity==='mythic' ? ' mythic-pulse' : '');
     row.style.setProperty('--rarity-c', rarityColor);
     row.innerHTML = `
       <div class="shop-item-main">
@@ -1951,7 +2130,7 @@ function render(){
         <div>
           <div class="shop-item-name">${item.name}</div>
           <div class="rarity-tag">${item.rarity || 'common'}</div>
-          <div class="shop-item-cost">${item.cost} PTS</div>
+          <div class="shop-item-cost">${liveCost} PTS</div>
         </div>
       </div>
       <div class="shop-item-actions">
@@ -1964,22 +2143,41 @@ function render(){
   shopList.querySelectorAll('.buy-btn').forEach(b=> b.onclick = ()=> buyItem(b.dataset.id));
   shopList.querySelectorAll('[data-del]').forEach(b=> b.onclick = ()=> deleteShopItem(b.dataset.del));
 
-  // purchase history
+  // purchase history — grouped (consecutive identical entries collapse to "×N")
+  // and shown behind a collapsible toggle
+  const toggleBtn = document.getElementById('activity-log-toggle');
+  toggleBtn.textContent = `${activityLogOpen ? '▼' : '▶'} Activity Log (${state.purchaseHistory.length})`;
+
   const histList = document.getElementById('history-list');
   histList.innerHTML = '';
-  if(state.purchaseHistory.length === 0){
-    histList.innerHTML = '<div class="empty-note">No activity yet.</div>';
-  } else {
-    state.purchaseHistory.forEach(h=>{
-      const row = document.createElement('div');
-      row.className = 'history-row';
-      if(h.type === 'used'){
-        row.innerHTML = `<span>${h.icon||'🎁'} Used ${h.name} — ${h.date}</span><span style="color:var(--text-dim);">used</span>`;
-      } else {
-        row.innerHTML = `<span>${h.icon||'🎁'} Stocked ${h.name} — ${h.date}</span><span>-${h.cost} PTS</span>`;
-      }
-      histList.appendChild(row);
-    });
+  histList.style.display = activityLogOpen ? 'block' : 'none';
+
+  if(activityLogOpen){
+    if(state.purchaseHistory.length === 0){
+      histList.innerHTML = '<div class="empty-note">No activity yet.</div>';
+    } else {
+      const grouped = [];
+      state.purchaseHistory.forEach(h=>{
+        const last = grouped[grouped.length-1];
+        if(last && last.type===h.type && last.name===h.name && last.date===h.date){
+          last.count += 1;
+          last.costTotal += (h.cost||0);
+        } else {
+          grouped.push({...h, count:1, costTotal: h.cost||0});
+        }
+      });
+      grouped.forEach(h=>{
+        const row = document.createElement('div');
+        row.className = 'history-row';
+        const suffix = h.count > 1 ? ` <span style="color:var(--gold);">×${h.count}</span>` : '';
+        if(h.type === 'used'){
+          row.innerHTML = `<span>${h.icon||'🎁'} Used ${h.name} — ${h.date}${suffix}</span><span style="color:var(--text-dim);">used</span>`;
+        } else {
+          row.innerHTML = `<span>${h.icon||'🎁'} Stocked ${h.name} — ${h.date}${suffix}</span><span>-${h.costTotal} PTS</span>`;
+        }
+        histList.appendChild(row);
+      });
+    }
   }
 
   // inventory
@@ -1991,7 +2189,7 @@ function render(){
     state.inventory.forEach(entry=>{
       const color = RARITY_COLORS[entry.rarity] || RARITY_COLORS.common;
       const card = document.createElement('div');
-      card.className = 'inv-item';
+      card.className = 'inv-item' + (entry.rarity==='mythic' ? ' mythic-pulse' : '');
       card.style.setProperty('--rarity-c', color);
       card.innerHTML = `
         <div class="inv-icon">${entry.icon || '🎁'}</div>
@@ -2014,8 +2212,6 @@ function render(){
   await loadState();
   const elapsed = Date.now() - startTime;
   if(elapsed < 900) await new Promise(r=>setTimeout(r, 900 - elapsed));
-  glitchElement(loadingOverlay);
-  await new Promise(r=>setTimeout(r, 300));
   loadingOverlay.style.display = 'none';
 
   if(!state.systemAccepted){
@@ -2027,7 +2223,7 @@ function render(){
     glitchElement(document.getElementById('app-wrap'));
     render();
     setTimeout(()=>{
-      notify(`<b>Welcome back, Player.</b><br>Standing by at LV ${state.level}.`);
+      notify(`<b>Welcome back, ${state.playerName || 'Player'}.</b><br>Standing by at LV ${state.level}.`);
     }, 400);
   }
 
@@ -2043,6 +2239,16 @@ function render(){
     addShopItem(name, Math.round(cost), icon, rarity);
     e.target.reset();
   });
+
+  document.getElementById('settings-name-input').addEventListener('change', function(e){
+    const v = e.target.value.trim().slice(0,24);
+    state.playerName = v || 'Player';
+    saveState();
+    render();
+    notify(`<b>Name updated.</b><br>The System now calls you ${state.playerName}.`);
+  });
+
+  startHPRegen();
 
   // Soft tick on any typing or number/dropdown adjustment, anywhere in the app.
   document.addEventListener('input', function(e){
