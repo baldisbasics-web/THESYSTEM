@@ -194,11 +194,23 @@ header{margin-bottom:16px;}
 .completed-quests-body{margin-top:10px;}
 
 /* ---------- stats sidebar ---------- */
+.status-card{max-width:460px;margin:0 auto;}
+.status-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px;}
 .status-name{
   font-family:'Rajdhani',sans-serif;font-weight:700;font-size:22px;letter-spacing:.05em;
   color:var(--accent);text-shadow:0 0 10px rgba(61,219,255,.6);margin-bottom:2px;
 }
-.status-level{font-size:12px;color:var(--text-dim);letter-spacing:.08em;margin-bottom:14px;}
+.status-level{font-size:12px;color:var(--text-dim);letter-spacing:.08em;}
+.status-streak-badge{
+  text-align:center;border:1px solid var(--gold);background:rgba(255,207,64,.08);
+  padding:8px 14px;flex:none;
+}
+.status-streak-num{
+  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:20px;
+  color:var(--gold);text-shadow:0 0 8px rgba(255,207,64,.5);line-height:1;
+}
+.status-streak-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-top:3px;}
+.status-divider{height:1px;background:linear-gradient(90deg, transparent, rgba(61,219,255,.35), transparent);margin:16px 0;}
 
 .hp-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
 .hp-label{
@@ -218,6 +230,24 @@ header{margin-bottom:16px;}
 .points-note{font-size:11px;color:var(--gold);margin-top:10px;text-align:center;}
 .streak-box{margin-top:16px;font-size:12px;color:var(--text-dim);text-align:center;}
 .streak-box b{color:var(--gold);font-size:16px;}
+
+/* ---------- skill tree ---------- */
+.skilltree-intro{font-size:12px;color:var(--text-dim);line-height:1.6;margin-bottom:14px;}
+.skilltree-points-banner{
+  text-align:center;border:1px solid var(--gold);background:rgba(255,207,64,.08);
+  color:var(--gold);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;
+  letter-spacing:.05em;padding:8px;margin-bottom:16px;text-shadow:0 0 6px rgba(255,207,64,.4);
+}
+.skill-card{
+  border:1px solid rgba(61,219,255,.2);background:rgba(13,26,46,.5);
+  padding:12px 14px;margin-bottom:10px;
+}
+.skill-card-top{display:flex;align-items:center;gap:12px;}
+.skill-card-icon{font-size:24px;flex:none;width:36px;text-align:center;}
+.skill-card-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;color:var(--accent);letter-spacing:.06em;}
+.skill-card-val{font-size:18px;color:var(--text);font-family:'Rajdhani',sans-serif;font-weight:600;}
+.skill-plus{margin-left:auto;flex:none;}
+.skill-card-desc{font-size:11px;color:var(--text-dim);line-height:1.5;margin-top:8px;padding-left:48px;}
 
 /* ---------- points badge ---------- */
 .points-badge{
@@ -326,6 +356,45 @@ header{margin-bottom:16px;}
 .use-box .use-sub{font-size:12px;color:var(--text-dim);margin:10px 0 0;line-height:1.5;}
 .use-box .use-actions{display:flex;gap:10px;justify-content:center;margin-top:18px;}
 
+/* ---------- notification bell ---------- */
+.notif-bell-btn{position:relative;}
+.notif-bell-badge{
+  display:none;position:absolute;top:-6px;right:-6px;
+  min-width:16px;height:16px;padding:0 3px;border-radius:8px;
+  background:var(--warn);color:#fff;font-size:9px;font-weight:700;
+  align-items:center;justify-content:center;line-height:1;
+  font-family:'Rajdhani',sans-serif;box-shadow:0 0 6px rgba(255,59,78,.7);
+}
+
+/* ---------- transmission log ---------- */
+#notiflog-overlay{
+  position:fixed;inset:0;background:rgba(2,6,14,.85);display:none;
+  align-items:center;justify-content:center;z-index:160;
+  padding:calc(20px + env(safe-area-inset-top)) calc(20px + env(safe-area-inset-right)) calc(20px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-left));
+}
+.notiflog-box{
+  border:1px solid var(--accent);background:rgba(6,12,22,.97);
+  box-shadow:0 0 40px -8px var(--accent);
+  width:100%;max-width:420px;max-height:80vh;
+  display:flex;flex-direction:column;padding:18px 18px 14px;
+}
+.notiflog-head{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.notiflog-title{
+  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;letter-spacing:.14em;
+  color:var(--accent);text-shadow:0 0 6px rgba(61,219,255,.5);
+}
+.notiflog-head-actions{display:flex;gap:6px;}
+.notiflog-note{font-size:10px;color:var(--text-dim);margin:8px 0 12px;font-style:italic;}
+#notiflog-list{overflow-y:auto;flex:1;}
+.notiflog-row{
+  display:flex;gap:10px;padding:9px 0;border-bottom:1px dashed rgba(61,219,255,.15);
+  font-size:12px;
+}
+.notiflog-row:last-child{border-bottom:none;}
+.notiflog-time{color:var(--text-dim);font-size:10px;flex:none;min-width:52px;padding-top:1px;}
+.notiflog-body{flex:1;line-height:1.5;}
+.notiflog-body b{color:var(--accent);font-family:'Rajdhani',sans-serif;}
+
 /* ---------- boot / awakening sequence ---------- */
 #boot-overlay{
   position:fixed;inset:0;background:#000;display:none;
@@ -363,6 +432,18 @@ header{margin-bottom:16px;}
 .intake-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;}
 .intake-note{font-size:11px;color:var(--text-dim);margin-top:2px;line-height:1.6;}
 .intake-submit{width:100%;margin-top:10px;padding:11px;font-size:14px;}
+
+.equip-checklist{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.equip-check-row{
+  display:flex;align-items:center;gap:10px;cursor:pointer;
+  border:1px solid rgba(61,219,255,.2);background:rgba(13,26,46,.4);
+  padding:9px 12px;font-size:13px;color:var(--text);
+  transition:border-color .15s, background .15s;
+}
+.equip-check-row:hover{border-color:var(--accent-dim);}
+.equip-check-row input[type="checkbox"]{
+  width:16px;height:16px;accent-color:var(--accent);flex:none;cursor:pointer;
+}
 
 .boot-skip{
   position:absolute;
@@ -425,14 +506,30 @@ header{margin-bottom:16px;}
 .menu-sub{font-size:10px;color:var(--text-dim);margin-top:5px;letter-spacing:.04em;}
 
 /* ---------- notifications ---------- */
-#notif-stack{position:fixed;top:16px;right:16px;left:16px;max-width:340px;margin-left:auto;z-index:50;display:flex;flex-direction:column;gap:8px;}
+#notif-stack{
+  position:fixed;
+  top:calc(16px + env(safe-area-inset-top));
+  right:calc(16px + env(safe-area-inset-right));
+  left:calc(16px + env(safe-area-inset-left));
+  max-width:340px;margin-left:auto;z-index:150;
+  display:flex;flex-direction:column;gap:8px;
+  max-height:min(70vh, 520px);overflow:hidden;
+  pointer-events:none;
+}
 @media(min-width:500px){#notif-stack{left:auto;}}
 .notif{
-  border:1px solid var(--accent);background:rgba(6,14,26,.95);
-  box-shadow:0 0 20px -4px var(--accent);padding:10px 14px;font-size:12px;
-  animation:slidein .25s ease, fadeout .4s ease 3.6s forwards;
+  position:relative;
+  border:1px solid var(--accent);background:rgba(6,14,26,.97);
+  box-shadow:0 0 20px -4px var(--accent);padding:10px 32px 10px 14px;font-size:12px;
+  animation:slidein .25s ease, fadeout .4s ease 5.6s forwards;
+  pointer-events:auto;
 }
 .notif b{color:var(--accent);font-family:'Rajdhani',sans-serif;}
+.notif-close{
+  position:absolute;top:6px;right:6px;background:none;border:none;cursor:pointer;
+  color:var(--text-dim);font-size:14px;line-height:1;padding:4px 6px;
+}
+.notif-close:hover{color:var(--accent);}
 @keyframes slidein{from{transform:translateX(30px);opacity:0;}to{transform:translateX(0);opacity:1;}}
 @keyframes fadeout{to{opacity:0;transform:translateX(20px);}}
 
@@ -549,6 +646,20 @@ footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:24px;le
   <div class="use-box" id="use-box"></div>
 </div>
 
+<div id="notiflog-overlay">
+  <div class="notiflog-box">
+    <div class="notiflog-head">
+      <div class="notiflog-title">TRANSMISSION LOG</div>
+      <div class="notiflog-head-actions">
+        <button class="btn small" onclick="clearNotifLog()">CLEAR</button>
+        <button class="btn small" onclick="toggleNotifLog()">CLOSE</button>
+      </div>
+    </div>
+    <div class="notiflog-note">Cleared automatically on reboot — this session only.</div>
+    <div id="notiflog-list"></div>
+  </div>
+</div>
+
 <div class="wrap" id="app-wrap">
 
   <div class="hud-frame">
@@ -556,7 +667,7 @@ footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:24px;le
     <header>
       <div class="title-row">
         <h1>THE SYSTEM</h1>
-        <div class="date-tag" id="date-tag"></div>
+        <div class="date-tag"><span id="date-tag"></span> · <span id="clock-tag"></span></div>
       </div>
       <div class="rank-tag" id="rank-tag"></div>
       <div class="xp-row">
@@ -567,6 +678,9 @@ footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:24px;le
       <div class="top-actions">
         <div class="points-badge"><span class="coin">◆</span><span id="points-val">0</span> PTS</div>
         <button class="btn small" onclick="toggleSound()" id="sound-toggle-btn">🔊 SOUND</button>
+        <button class="btn small notif-bell-btn" onclick="toggleNotifLog()" id="notif-bell-btn">
+          🔔<span class="notif-bell-badge" id="notif-bell-badge"></span>
+        </button>
         <button class="btn small" onclick="setView('menu')" id="menu-btn">☰ MENU</button>
         <button class="btn small warn" onclick="confirmReset()">RESET SYSTEM</button>
       </div>
@@ -593,6 +707,11 @@ footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:24px;le
           <div class="menu-icon">📊</div>
           <div class="menu-label">Status</div>
           <div class="menu-sub" id="menu-sub-status"></div>
+        </button>
+        <button class="menu-card" onclick="setView('skilltree')">
+          <div class="menu-icon">🌳</div>
+          <div class="menu-label">Skill Tree</div>
+          <div class="menu-sub" id="menu-sub-skilltree"></div>
         </button>
         <button class="menu-card" onclick="setView('inventory')">
           <div class="menu-icon">🎒</div>
@@ -648,6 +767,21 @@ footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:24px;le
         <input type="text" id="settings-name-input" maxlength="24" style="width:100%;background:#0a1626;border:1px solid var(--accent-dim);color:var(--text);font-family:'Share Tech Mono',monospace;padding:9px 10px;font-size:14px;">
       </div>
 
+      <div class="intake-row" style="margin-bottom:18px;">
+        <label style="display:block;font-size:11px;letter-spacing:.1em;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px;">Equipment</label>
+        <div id="settings-equipment-list" class="equip-checklist"></div>
+        <div class="intake-note">Only affects Quests not yet generated — anything already revealed stays as it was.</div>
+      </div>
+
+      <div class="intake-row" style="margin-bottom:18px;">
+        <label style="display:block;font-size:11px;letter-spacing:.1em;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px;">Daily Quest</label>
+        <label class="equip-check-row">
+          <input type="checkbox" id="settings-pullups-toggle">
+          <span>Include Pull-Ups</span>
+        </label>
+        <div class="intake-note">Off by default. Takes effect starting your next Daily Quest reset, not today's.</div>
+      </div>
+
       <div style="font-size:12px;color:var(--text-dim);margin-bottom:10px;">Adjust today's targets manually if the auto-scaled numbers don't fit you.</div>
       <div id="settings-list"></div>
     </div>
@@ -684,21 +818,41 @@ footer{text-align:center;color:var(--text-dim);font-size:11px;margin-top:24px;le
   <!-- ===== STATUS ===== -->
   <div class="panel-view" id="panel-status">
     <button class="btn small back-btn" onclick="setView('menu')">← BACK TO MENU</button>
-    <div class="hud-frame">
+    <div class="hud-frame status-card">
       <div class="corner c-tl"></div><div class="corner c-br"></div>
-      <div class="section-title">Status</div>
-      <div class="status-name" id="status-name"></div>
-      <div class="status-level" id="status-level"></div>
+      <div class="status-card-head">
+        <div>
+          <div class="status-name" id="status-name"></div>
+          <div class="status-level" id="status-level"></div>
+        </div>
+        <div class="status-streak-badge">
+          <div class="status-streak-num" id="streak-val">0</div>
+          <div class="status-streak-label">day streak</div>
+        </div>
+      </div>
       <div class="hp-row">
         <div class="hp-label">HP</div>
         <div class="hp-bar-outer"><div class="hp-bar-inner" id="hp-bar-inner"></div></div>
         <div class="hp-value" id="hp-value"></div>
       </div>
+      <div class="status-divider"></div>
       <div id="stat-list"></div>
-      <div class="points-note" id="points-note"></div>
-      <div class="streak-box">
-        CURRENT STREAK<br><b id="streak-val">0</b> days
+    </div>
+  </div>
+
+  <!-- ===== SKILL TREE ===== -->
+  <div class="panel-view" id="panel-skilltree">
+    <button class="btn small back-btn" onclick="setView('menu')">← BACK TO MENU</button>
+    <div class="hud-frame">
+      <div class="corner c-tl"></div><div class="corner c-br"></div>
+      <div class="section-title">Skill Tree</div>
+      <div class="skilltree-intro">
+        Review what each stat does and spend Skill Points here. Stats also grow automatically as you train the matching exercise — the higher a stat climbs, the harder that exercise gets.
       </div>
+      <div class="skilltree-points-banner">
+        <span id="skilltree-points-val">0</span> unspent Skill Point<span id="skilltree-points-plural">s</span>
+      </div>
+      <div id="skilltree-list"></div>
     </div>
   </div>
 
@@ -724,6 +878,34 @@ const EXERCISES = [
   {key:'situps',  name:'Sit-Ups',  stat:'PER', unit:'reps', step:10},
   {key:'run',     name:'Run',      stat:'VIT', unit:'km',   step:0.5},
 ];
+const PULLUP_EXERCISE = {key:'pullups', name:'Pull-Ups', stat:'VIT', unit:'reps', step:5};
+const ALL_EXERCISES = [...EXERCISES, PULLUP_EXERCISE];
+
+// Which exercises are actually part of today's Daily Quest — frozen at
+// reset time (see checkDailyReset), same principle as the frozen targets,
+// so toggling Pull-Ups in Settings never changes today's quest mid-day.
+function getActiveExercises(){
+  const keys = state.dailyActiveKeys || ['pushups','squats','situps','run'];
+  return ALL_EXERCISES.filter(e => keys.includes(e.key));
+}
+
+/* ---------------- automatic stat growth ----------------
+   Stats grow directly from doing the matching workout, on top of manually
+   spent Skill Points. This feeds the same target()/baseTarget() difficulty
+   scaling, so training a stat keeps making its exercise harder over time. */
+function guessStatForExercise(name){
+  const n = name.toLowerCase();
+  if(/leg press|leg extension|goblet squat|squat|lunge|step|jump|knee/.test(n)) return 'AGI';
+  if(/push|press|thruster|dip|clean/.test(n)) return 'STR';
+  if(/plank|sit-up|leg raise|curl|kickback|lateral|superman|wall sit|renegade|pull-apart/.test(n)) return 'PER';
+  if(/mountain|burpee|deadlift|row|swing|snatch|pulldown|pull-up|pullup/.test(n)) return 'VIT';
+  return 'STR';
+}
+
+function autoGrowStat(stat, amount){
+  if(!state.stats[stat]) return;
+  state.stats[stat] += amount;
+}
 
 /* ---------------- quests ----------------
    A progression of bodyweight and dumbbell workouts (up to 12kg), each
@@ -812,6 +994,7 @@ const BODYWEIGHT_POOL = [
   {key:'ws', name:'Wall Sit', unit:'sec', base:20, growth:1.3, step:10},
   {key:'dp', name:'Chair Dips', unit:'reps', base:8, growth:0.8, step:4},
   {key:'su', name:'Superman Hold', unit:'sec', base:15, growth:1.0, step:5},
+  {key:'pup', name:'Pull-Ups', unit:'reps', base:6, growth:0.6, step:2},
 ];
 const DUMBBELL_POOL = [
   {key:'gs', name:'DB Goblet Squats', unit:'reps', base:10, growth:1.0, step:4, weight:12},
@@ -829,6 +1012,56 @@ const DUMBBELL_POOL = [
   {key:'fr', name:'DB Lateral Raises', unit:'reps', base:12, growth:0.8, step:4, weight:6},
   {key:'su2', name:'DB Step-Ups (each leg)', unit:'reps', base:10, growth:0.9, step:4, weight:10},
 ];
+const BARBELL_POOL = [
+  {key:'bsq', name:'Barbell Squats', unit:'reps', base:8, growth:0.8, step:3},
+  {key:'bdl', name:'Barbell Deadlifts', unit:'reps', base:8, growth:0.7, step:3},
+  {key:'bbp', name:'Barbell Bench Press', unit:'reps', base:8, growth:0.7, step:3},
+  {key:'brw', name:'Barbell Rows', unit:'reps', base:10, growth:0.8, step:3},
+  {key:'bop', name:'Barbell Overhead Press', unit:'reps', base:8, growth:0.6, step:2},
+  {key:'brd', name:'Barbell Romanian Deadlifts', unit:'reps', base:10, growth:0.7, step:3},
+];
+const GYM_POOL = [
+  {key:'lpd', name:'Lat Pulldown', unit:'reps', base:10, growth:0.9, step:3},
+  {key:'lpr', name:'Leg Press', unit:'reps', base:12, growth:1.0, step:4},
+  {key:'cbr', name:'Cable Rows', unit:'reps', base:10, growth:0.9, step:3},
+  {key:'cpm', name:'Chest Press Machine', unit:'reps', base:10, growth:0.8, step:3},
+  {key:'lex', name:'Leg Extension', unit:'reps', base:12, growth:0.9, step:4},
+  {key:'tpd', name:'Tricep Pushdown', unit:'reps', base:12, growth:0.8, step:4},
+];
+const RESISTANCE_BAND_POOL = [
+  {key:'bnsq', name:'Band Squats', unit:'reps', base:15, growth:1.1, step:5},
+  {key:'bnrw', name:'Band Rows', unit:'reps', base:15, growth:1.0, step:5},
+  {key:'bncp', name:'Band Chest Press', unit:'reps', base:12, growth:0.9, step:4},
+  {key:'bnpa', name:'Band Pull-Aparts', unit:'reps', base:15, growth:1.0, step:5},
+  {key:'bndl', name:'Band Deadlifts', unit:'reps', base:12, growth:0.9, step:4},
+];
+const KETTLEBELL_POOL = [
+  {key:'kbsw', name:'Kettlebell Swings', unit:'reps', base:15, growth:1.2, step:5},
+  {key:'kbgs', name:'Kettlebell Goblet Squats', unit:'reps', base:10, growth:1.0, step:4},
+  {key:'kbcl', name:'Kettlebell Cleans (each arm)', unit:'reps', base:8, growth:0.7, step:2},
+  {key:'kbsn', name:'Kettlebell Snatches (each arm)', unit:'reps', base:8, growth:0.7, step:2},
+  {key:'kbrw', name:'Kettlebell Rows (each arm)', unit:'reps', base:10, growth:0.8, step:4},
+];
+
+const EQUIPMENT_POOL_MAP = [
+  {key:'calisthenics', name:'Bodyweight', pool:BODYWEIGHT_POOL},
+  {key:'dumbbell', name:'Dumbbell', pool:DUMBBELL_POOL},
+  {key:'barbell', name:'Barbell', pool:BARBELL_POOL},
+  {key:'gym', name:'Gym', pool:GYM_POOL},
+  {key:'bands', name:'Bands', pool:RESISTANCE_BAND_POOL},
+  {key:'kettlebell', name:'Kettlebell', pool:KETTLEBELL_POOL},
+];
+
+// Reads CURRENT equipment settings — only used at the moment a stage is
+// first generated (see getStage's caching), so changing equipment later
+// never disturbs a quest that's already been shown.
+function getAvailablePools(){
+  const eq = (state && state.equipment) || {};
+  const pools = EQUIPMENT_POOL_MAP.filter(p => eq[p.key]);
+  if(pools.length === 0) return [EQUIPMENT_POOL_MAP[0]]; // always fall back to bodyweight
+  return pools;
+}
+
 const STAGE_ADJ = ['Iron','Steel','Shadow','Storm','Ember','Frost','Thunder','Crimson','Void','Solar','Titan','Phantom','Rogue','Obsidian','Radiant','Grim','Silent','Feral','Astral','Molten'];
 const STAGE_NOUN = ['Trial','Ascent','Gauntlet','Crucible','Reckoning','Vanguard','Bastion','Surge','Oath','Legacy','Descent','Awakening','Siege','Verdict','Passage','Rift','Zenith','Hollow','Vigil','Eclipse'];
 
@@ -859,18 +1092,30 @@ function generateStageName(genIdx){
 
 function generateStage(idx){
   const g = idx - JOURNEY_STAGES.length;
-  const cyclePos = g % 3;
-  const type = cyclePos===0 ? 'Bodyweight' : (cyclePos===1 ? 'Dumbbell' : 'Mixed');
+  const available = getAvailablePools();
   const exerciseCount = g < 15 ? 3 : 4;
 
+  // Mostly draw from a single equipment pool; every third generated stage
+  // mixes two (if more than one is available) for variety.
+  let chosenPools;
+  if(available.length > 1 && g % 3 === 2){
+    const i1 = g % available.length;
+    let i2 = (g + 1) % available.length;
+    if(i2 === i1) i2 = (i2 + 1) % available.length;
+    chosenPools = i1 === i2 ? [available[i1]] : [available[i1], available[i2]];
+  } else {
+    chosenPools = [available[g % available.length]];
+  }
+
+  const type = chosenPools.length > 1 ? 'Mixed' : chosenPools[0].name;
+
   let picks;
-  if(type==='Bodyweight'){
-    picks = pickFromPool(BODYWEIGHT_POOL, g, exerciseCount);
-  } else if(type==='Dumbbell'){
-    picks = pickFromPool(DUMBBELL_POOL, g, exerciseCount);
+  if(chosenPools.length === 1){
+    picks = pickFromPool(chosenPools[0].pool, g, exerciseCount);
   } else {
     const half = Math.ceil(exerciseCount/2);
-    picks = pickFromPool(BODYWEIGHT_POOL, g, half).concat(pickFromPool(DUMBBELL_POOL, g+2, exerciseCount-half));
+    picks = pickFromPool(chosenPools[0].pool, g, half)
+      .concat(pickFromPool(chosenPools[1].pool, g+2, exerciseCount-half));
   }
 
   const exercises = picks.map(ex=>({
@@ -892,9 +1137,18 @@ function generateStage(idx){
   };
 }
 
+// Generated stages are cached the FIRST time they're requested, and never
+// regenerated after that — so changing your equipment mid-quest can't
+// alter a quest you're already partway through. The next quest (not yet
+// cached) will pick up your latest equipment the moment it's revealed.
 function getStage(idx){
   if(idx < JOURNEY_STAGES.length) return JOURNEY_STAGES[idx];
-  return generateStage(idx);
+  if(!state.journey.stageCache) state.journey.stageCache = {};
+  if(!state.journey.stageCache[idx]){
+    state.journey.stageCache[idx] = generateStage(idx);
+    saveState();
+  }
+  return state.journey.stageCache[idx];
 }
 
 /* ---------------- glitch transition helper ---------------- */
@@ -1132,10 +1386,12 @@ function defaultState(){
     purchaseHistory:[],
     inventory:[],
     systemAccepted:false,
-    profile:{age:null,height:null,weight:null,sex:null,fitnessLevel:'intermediate'},
+    profile:{fitnessLevel:'intermediate'},
+    equipment:{calisthenics:true, dumbbell:false, barbell:false, gym:false, bands:false, kettlebell:false},
+    includePullups:false,
     playerName:'Player',
     hp:100,
-    journey:{currentIndex:0, progress:{}, completedOnce:{}, timesCompleted:{}}
+    journey:{currentIndex:0, progress:{}, completedOnce:{}, timesCompleted:{}, stageCache:{}}
   };
 }
 
@@ -1154,15 +1410,31 @@ function baseTarget(key, level){
   return b.reps + level*1.4;
 }
 
-// The higher a stat rises, the harder its linked exercise becomes —
-// growing STR makes Push-Ups tougher, growing AGI makes Squats tougher, etc.
-function target(key){
-  if(state.overrides[key] !== undefined) return state.overrides[key];
-  const ex = EXERCISES.find(e=>e.key===key);
+// The higher a stat is AT THE MOMENT OF RESET, the harder its linked
+// exercise becomes for that day. This is computed once per day (see
+// computeDailyTargets) rather than live, so finishing one objective or
+// leveling up mid-day can't quietly raise the bar on the others.
+function computeStatScaledTarget(key, level){
+  const ex = ALL_EXERCISES.find(e=>e.key===key);
   const statVal = (state.stats && state.stats[ex.stat]) || 10;
   const statBonus = Math.max(0, statVal - 10);
-  const raw = baseTarget(key, state.level) + (key==='run' ? statBonus*0.05 : statBonus*1.3);
+  const raw = baseTarget(key, level) + (key==='run' ? statBonus*0.05 : statBonus*1.3);
   return key==='run' ? Math.round(Math.max(0.5, raw)*10)/10 : Math.max(5, Math.round(raw));
+}
+
+function computeDailyTargets(){
+  state.dailyTargets = {};
+  getActiveExercises().forEach(ex=>{
+    state.dailyTargets[ex.key] = computeStatScaledTarget(ex.key, state.level);
+  });
+}
+
+function target(key){
+  if(state.overrides[key] !== undefined) return state.overrides[key];
+  if(!state.dailyTargets || state.dailyTargets[key] === undefined){
+    computeDailyTargets();
+  }
+  return state.dailyTargets[key];
 }
 
 function todayStr(){
@@ -1212,11 +1484,15 @@ async function loadState(){
     }
   }
   if(!state.journey){
-    state.journey = {currentIndex:0, progress:{}, completedOnce:{}, timesCompleted:{}};
+    state.journey = {currentIndex:0, progress:{}, completedOnce:{}, timesCompleted:{}, stageCache:{}};
   } else if(state.journey.currentIndex === undefined){
     // migrate from the old unlockedCount model
     state.journey.currentIndex = Math.max(0, (state.journey.unlockedCount || 1) - 1);
     delete state.journey.unlockedCount;
+  }
+  if(!state.journey.stageCache) state.journey.stageCache = {};
+  if(!state.equipment){
+    state.equipment = {calisthenics:true, dumbbell:false, barbell:false, gym:false, bands:false, kettlebell:false};
   }
   if(!state.playerName) state.playerName = 'Player';
   if(state.hpInitialized === undefined){
@@ -1232,13 +1508,74 @@ async function saveState(){
 }
 
 /* ---------------- notifications ---------------- */
+// Session-only log — intentionally never saved to localStorage, so it's
+// always empty again after a reboot.
+let notifLog = [];
+let notifUnread = 0;
+
 function notify(html){
+  notifLog.unshift({html, time: new Date()});
+  if(notifLog.length > 150) notifLog.pop();
+  notifUnread++;
+  updateNotifBellBadge();
+  if(notifLogOpen) renderNotifLog();
+
   const stack = document.getElementById('notif-stack');
   const el = document.createElement('div');
   el.className = 'notif';
-  el.innerHTML = html;
+  el.innerHTML = html + `<button class="notif-close" onclick="this.parentElement.remove()">✕</button>`;
   stack.appendChild(el);
-  setTimeout(()=> el.remove(), 4000);
+
+  // cap simultaneously visible toasts so they never dominate the screen
+  while(stack.children.length > 5){
+    stack.removeChild(stack.firstChild);
+  }
+
+  setTimeout(()=>{ if(el.parentElement) el.remove(); }, 6000);
+}
+
+function updateNotifBellBadge(){
+  const badge = document.getElementById('notif-bell-badge');
+  if(!badge) return;
+  if(notifUnread > 0){
+    badge.textContent = notifUnread > 99 ? '99+' : notifUnread;
+    badge.style.display = 'flex';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+let notifLogOpen = false;
+function toggleNotifLog(){
+  sfxClick();
+  notifLogOpen = !notifLogOpen;
+  document.getElementById('notiflog-overlay').style.display = notifLogOpen ? 'flex' : 'none';
+  if(notifLogOpen){
+    notifUnread = 0;
+    updateNotifBellBadge();
+    renderNotifLog();
+  }
+}
+
+function clearNotifLog(){
+  sfxClick();
+  notifLog = [];
+  renderNotifLog();
+}
+
+function renderNotifLog(){
+  const list = document.getElementById('notiflog-list');
+  if(!list) return;
+  if(notifLog.length === 0){
+    list.innerHTML = '<div class="empty-note">No transmissions this session.</div>';
+    return;
+  }
+  list.innerHTML = notifLog.map(n=>{
+    const hh = String(n.time.getHours()).padStart(2,'0');
+    const mm = String(n.time.getMinutes()).padStart(2,'0');
+    const ss = String(n.time.getSeconds()).padStart(2,'0');
+    return `<div class="notiflog-row"><div class="notiflog-time">${hh}:${mm}:${ss}</div><div class="notiflog-body">${n.html}</div></div>`;
+  }).join('');
 }
 
 /* ---------------- daily reset / penalty ---------------- */
@@ -1261,11 +1598,17 @@ function checkDailyReset(){
   state.lastQuestDate = today;
   state.dayCompleted = false;
   state.overrides = {};
-  state.progress = {pushups:0,squats:0,situps:0,run:0};
+  state.dailyActiveKeys = ['pushups','squats','situps','run'].concat(state.includePullups ? ['pullups'] : []);
+  state.progress = {};
+  state.dailyActiveKeys.forEach(k=> state.progress[k] = 0);
+  computeDailyTargets();
 }
 
 /* ---------------- quest logic ---------------- */
 function addProgress(key, amt){
+  const taskId = `dq:${key}`;
+  if(!tryTaskAction(taskId)) return;
+
   const t = target(key);
   const wasKeyDone = state.progress[key] >= t;
   state.progress[key] = Math.min(t, Math.round((state.progress[key]+amt)*100)/100);
@@ -1274,9 +1617,16 @@ function addProgress(key, amt){
   drainHP(amt);
   if(nowKeyDone && !wasKeyDone){
     const earned = state.penaltyActive ? 5 : 10;
+    const statKey = ALL_EXERCISES.find(e=>e.key===key).stat;
     state.points += earned;
+    autoGrowStat(statKey, 1);
     sfxObjectiveClear();
-    notify(`<b>${EXERCISES.find(e=>e.key===key).stat} objective cleared.</b><br>+${earned} PTS`);
+    notify(`<b>Objective cleared: ${statKey}.</b><br>+${earned} PTS recorded.`);
+    registerTaskCompletion(taskId, ()=>{
+      state.progress[key] = 0;
+      state.points = Math.max(0, state.points - earned);
+      state.stats[statKey] = Math.max(5, state.stats[statKey] - 1);
+    });
   }
   render();
   saveState();
@@ -1286,7 +1636,7 @@ function addProgress(key, amt){
 }
 
 function allQuestsDone(){
-  return EXERCISES.every(e => state.progress[e.key] >= target(e.key));
+  return getActiveExercises().every(e => state.progress[e.key] >= target(e.key));
 }
 
 function completeDailyQuest(){
@@ -1300,7 +1650,7 @@ function completeDailyQuest(){
   state.statPoints += 1;
   saveState();
   sfxQuestClear();
-  notify(`<b>DAILY QUEST CLEARED.</b><br>+${bonusXP} XP · +${bonusPts} PTS · +1 Skill Point`);
+  notify(`<b>Daily Quest complete.</b><br>+${bonusXP} XP · +${bonusPts} PTS · +1 Skill Point recorded.`);
   render();
 }
 
@@ -1360,6 +1710,9 @@ function journeyStageDone(stage){
 
 function journeyAddProgress(stageIdx, exKey, amt){
   if(stageIdx > state.journey.currentIndex) return; // future quests are never interactable
+  const taskId = `journey:${stageIdx}:${exKey}`;
+  if(!tryTaskAction(taskId)) return;
+
   const stage = getStage(stageIdx);
   if(!stage) return;
   if(!state.journey.progress[stage.id]) state.journey.progress[stage.id] = {};
@@ -1372,7 +1725,16 @@ function journeyAddProgress(stageIdx, exKey, amt){
   sfxTick();
   drainHP(amt);
   if(nowDone && !wasDone){
+    let grownStat = null;
+    if(stageIdx === state.journey.currentIndex){
+      grownStat = guessStatForExercise(ex.name);
+      autoGrowStat(grownStat, 1);
+    }
     sfxObjectiveClear();
+    registerTaskCompletion(taskId, ()=>{
+      state.journey.progress[stage.id][exKey] = 0;
+      if(grownStat) state.stats[grownStat] = Math.max(5, state.stats[grownStat] - 1);
+    });
   }
   render();
   saveState();
@@ -1408,8 +1770,8 @@ function completeJourneyStage(stageIdx){
 
   saveState();
   sfxQuestClear();
-  const nextMsg = firstTime ? ` Next quest revealed.` : '';
-  notify(`<b>QUEST CLEARED: ${stage.name}</b><br>+${xpReward} XP · +${rewardPts} PTS${nextMsg}`);
+  const nextMsg = firstTime ? ` Next quest unlocked.` : '';
+  notify(`<b>Quest complete: ${stage.name}.</b><br>+${xpReward} XP · +${rewardPts} PTS recorded.${nextMsg}`);
   render();
 }
 
@@ -1434,7 +1796,7 @@ function buyItem(id){
   const cost = shopItemCost(item);
   if(state.points < cost){
     sfxDeny();
-    notify(`<b>Insufficient points.</b><br>Need ${cost - state.points} more PTS.`);
+    notify(`<b>Insufficient points.</b><br>${cost - state.points} more PTS required.`);
     return;
   }
   state.points -= cost;
@@ -1446,7 +1808,7 @@ function buyItem(id){
   saveState();
   render();
   sfxPurchase();
-  notify(`<b>Stocked:</b> ${item.icon||''} ${item.name}<br>-${cost} PTS`);
+  notify(`<b>Item stocked:</b> ${item.icon||''} ${item.name}<br>-${cost} PTS.`);
 }
 
 function addShopItem(name, cost, icon, rarity){
@@ -1522,7 +1884,7 @@ function typeLines(el, lines, speed=32){
     const cursor = document.createElement('span');
     cursor.className = 'boot-cursor';
     function step(){
-      if(li >= lines.length){
+      if(bootSkipped || li >= lines.length){
         cursor.remove();
         resolve();
         return;
@@ -1642,30 +2004,6 @@ async function runIntakeForm(){
     v=>v.trim().slice(0,24) || 'Player', 'NEXT'
   );
 
-  const age = await askIntakeQuestion(
-    'State your age.',
-    '<input type="number" name="val" min="10" max="100" required>',
-    v=>parseInt(v), 'NEXT'
-  );
-
-  const sex = await askIntakeQuestion(
-    'State your sex.',
-    '<select name="val" required><option value="">Select</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select>',
-    v=>v, 'NEXT'
-  );
-
-  const height = await askIntakeQuestion(
-    'State your height, in centimeters.',
-    '<input type="number" name="val" min="100" max="250" required>',
-    v=>parseFloat(v), 'NEXT'
-  );
-
-  const weight = await askIntakeQuestion(
-    'State your weight, in kilograms.',
-    '<input type="number" name="val" min="30" max="300" required>',
-    v=>parseFloat(v), 'NEXT'
-  );
-
   const fitnessLevel = await askIntakeQuestion(
     'Rate your current fitness level. This determines your starting Daily Quest difficulty.',
     `<select name="val" required>
@@ -1673,28 +2011,67 @@ async function runIntakeForm(){
       <option value="intermediate" selected>Intermediate — exercises somewhat regularly</option>
       <option value="advanced">Advanced — trains consistently</option>
     </select>`,
-    v=>v, 'CONFIRM'
+    v=>v, 'NEXT'
   );
 
-  return {name, age, sex, height, weight, fitnessLevel};
+  return {name, fitnessLevel};
+}
+
+const EQUIPMENT_OPTIONS = [
+  {key:'calisthenics', label:'Calisthenics / Bodyweight only'},
+  {key:'dumbbell', label:'Dumbbells'},
+  {key:'barbell', label:'Barbell'},
+  {key:'gym', label:'Gym access (machines/cables)'},
+  {key:'bands', label:'Resistance Bands'},
+  {key:'kettlebell', label:'Kettlebell'}
+];
+
+async function askEquipmentChecklist(){
+  const box = document.getElementById('boot-box');
+  glitchElement(box);
+  const term = document.createElement('div');
+  term.className = 'boot-terminal';
+  box.innerHTML = '';
+  box.appendChild(term);
+  await typeLines(term, [
+    'What equipment do you have access to?',
+    'Select all that apply. This shapes which workouts the System will generate for you.'
+  ]);
+
+  const form = document.createElement('form');
+  form.className = 'intake-form';
+  const rows = EQUIPMENT_OPTIONS.map(opt => `
+    <label class="equip-check-row">
+      <input type="checkbox" name="eq" value="${opt.key}" ${opt.key==='calisthenics' ? 'checked' : ''}>
+      <span>${opt.label}</span>
+    </label>
+  `).join('');
+  form.innerHTML = `
+    <div class="equip-checklist">${rows}</div>
+    <button type="submit" class="btn boot-btn accept intake-submit">CONFIRM</button>
+  `;
+  box.appendChild(form);
+
+  return new Promise(resolve=>{
+    form.addEventListener('submit', e=>{
+      e.preventDefault();
+      const checked = Array.from(form.querySelectorAll('input[name="eq"]:checked')).map(el=>el.value);
+      const equipment = {};
+      EQUIPMENT_OPTIONS.forEach(opt=> equipment[opt.key] = checked.includes(opt.key));
+      if(!Object.values(equipment).some(Boolean)) equipment.calisthenics = true; // always leave a fallback
+      resolve(equipment);
+    });
+  });
 }
 
 function calculateBaselineStats(profile){
-  const heightM = profile.height / 100;
-  const bmi = profile.weight / (heightM*heightM);
-  const flBonus = {beginner:0, intermediate:2, advanced:5}[profile.fitnessLevel] ?? 0;
-
-  const STR = Math.max(5, Math.min(30, Math.round(10 + (profile.weight/12) + flBonus)));
-  const AGI = Math.max(5, Math.min(30, Math.round(10 + Math.max(0, (35 - profile.age))/4 + flBonus)));
-  const VIT = Math.max(5, Math.min(30, Math.round(10 + (25 - Math.abs(bmi-22))/2.5 + flBonus)));
-  const INT = 10;
-  const PER = 10;
-
-  return {STR, AGI, VIT, INT, PER};
+  const flBonus = {beginner:0, intermediate:4, advanced:9}[profile.fitnessLevel] ?? 4;
+  const base = 10 + flBonus;
+  return {STR:base, AGI:base, VIT:base, INT:10, PER:base};
 }
 
 // Max HP is a stand-in for real-world condition: it grows with Vitality
-// (which itself was seeded from your actual BMI at registration) and level.
+// and level.
 function calcMaxHP(){
   const vit = (state.stats && state.stats.VIT) || 10;
   return Math.round(50 + vit*3 + state.level*2);
@@ -1720,12 +2097,62 @@ function trackHPLoss(){
   hpLossTimestamps = hpLossTimestamps.filter(t => now - t < 4000);
   if(hpLossTimestamps.length >= 6){
     hpLossTimestamps = [];
-    if(!hasShownRapidWarning){
-      hasShownRapidWarning = true;
-      showRapidLossWarning();
-    } else {
-      showRapidLossError();
-    }
+    triggerCheatWarning();
+  }
+}
+
+/* ---------------- task-completion cheat detection ----------------
+   Fully completing three separate tasks inside a 15s window reverts all
+   three (progress, points, and any stat gained from them) and puts each
+   on a 15s cooldown. The buttons stay visible and clickable as normal —
+   they just silently fail and show an error instead of a countdown.
+   Trying again mid-cooldown resets that task's 15s clock. */
+let recentTaskCompletions = [];
+let taskCooldowns = {};
+
+function tryTaskAction(taskId){
+  const until = taskCooldowns[taskId];
+  if(until && Date.now() < until){
+    taskCooldowns[taskId] = Date.now() + 15000; // retrying mid-cooldown resets the clock
+    notify(`<b style="color:#ff5470;">SYSTEM ERROR</b><br>I told you don't.`);
+    sfxDeny();
+    render();
+    return false;
+  }
+  return true;
+}
+
+function isTaskOnCooldown(taskId){
+  return !!(taskCooldowns[taskId] && Date.now() < taskCooldowns[taskId]);
+}
+
+function registerTaskCompletion(taskId, revertFn){
+  const now = Date.now();
+  recentTaskCompletions.push({taskId, time:now, revertFn});
+  recentTaskCompletions = recentTaskCompletions.filter(c => now - c.time < 15000);
+
+  const seen = new Set();
+  const distinct = [];
+  recentTaskCompletions.forEach(c=>{
+    if(!seen.has(c.taskId)){ seen.add(c.taskId); distinct.push(c); }
+  });
+
+  if(distinct.length >= 3){
+    distinct.forEach(c=> c.revertFn());
+    distinct.forEach(c=> { taskCooldowns[c.taskId] = Date.now() + 15000; });
+    recentTaskCompletions = [];
+    saveState();
+    render();
+    triggerCheatWarning();
+  }
+}
+
+function triggerCheatWarning(){
+  if(!hasShownRapidWarning){
+    hasShownRapidWarning = true;
+    showRapidLossWarning();
+  } else {
+    showRapidLossError();
   }
 }
 
@@ -1741,6 +2168,20 @@ function startHPRegen(){
   }, 4000);
 }
 
+function updateClock(){
+  const el = document.getElementById('clock-tag');
+  if(!el) return;
+  const d = new Date();
+  const hh = String(d.getHours()).padStart(2,'0');
+  const mm = String(d.getMinutes()).padStart(2,'0');
+  const ss = String(d.getSeconds()).padStart(2,'0');
+  el.textContent = `${hh}:${mm}:${ss}`;
+}
+function startClock(){
+  updateClock();
+  setInterval(updateClock, 1000);
+}
+
 function updateHPDisplay(){
   const bar = document.getElementById('hp-bar-inner');
   const val = document.getElementById('hp-value');
@@ -1750,10 +2191,45 @@ function updateHPDisplay(){
   val.textContent = `${state.hp} / ${max}`;
 }
 
+/* ---------------- warning-screen hum (louder, dedicated) ---------------- */
+let warningHumNodes = null;
+function startWarningHum(){
+  if(!state || !state.soundEnabled) return;
+  const ctx = getCtx();
+  const t = ctx.currentTime;
+  const master = ctx.createGain();
+  master.gain.setValueAtTime(0, t);
+  master.gain.linearRampToValueAtTime(0.11, t + 0.7);
+  master.connect(ctx.destination);
+
+  const hum = ctx.createOscillator();
+  hum.type = 'sine'; hum.frequency.value = 47;
+  const hum2 = ctx.createOscillator();
+  hum2.type = 'sine'; hum2.frequency.value = 70; // slightly dissonant overtone
+  hum.connect(master); hum2.connect(master);
+  hum.start(t); hum2.start(t);
+
+  warningHumNodes = {master, hum, hum2};
+}
+function stopWarningHum(){
+  if(!warningHumNodes) return;
+  const ctx = getCtx();
+  const t = ctx.currentTime;
+  try{
+    warningHumNodes.master.gain.cancelScheduledValues(t);
+    warningHumNodes.master.gain.setValueAtTime(warningHumNodes.master.gain.value, t);
+    warningHumNodes.master.gain.linearRampToValueAtTime(0, t + 0.6);
+    warningHumNodes.hum.stop(t + 0.7);
+    warningHumNodes.hum2.stop(t + 0.7);
+  }catch(e){}
+  warningHumNodes = null;
+}
+
 async function showRapidLossWarning(){
   const overlay = document.getElementById('boot-overlay');
   const box = document.getElementById('boot-box');
   overlay.classList.add('active');
+  startWarningHum();
   box.innerHTML = '';
   const term = document.createElement('div');
   term.className = 'boot-terminal';
@@ -1763,12 +2239,13 @@ async function showRapidLossWarning(){
     'Don\'t.'
   ], 45);
   await new Promise(r=>setTimeout(r, 1600));
+  stopWarningHum();
   overlay.classList.remove('active');
   box.innerHTML = '';
 }
 
 function showRapidLossError(){
-  notify(`<b style="color:#ff5470;">⚠ SYSTEM WARNING</b><br>Overexertion detected. Slow down.`);
+  notify(`<b style="color:#ff5470;">SYSTEM ERROR</b><br>I told you don't.`);
   sfxDeny();
 }
 
@@ -1794,23 +2271,31 @@ async function showFinalRegistration(profile, stats){
   });
 }
 
+let bootSkipped = false;
+
 async function skipBoot(){
+  bootSkipped = true;
   sfxClick();
-  const defaultProfile = {age:28, sex:'other', height:175, weight:75, fitnessLevel:'intermediate'};
+  const defaultProfile = {name:'Player', fitnessLevel:'intermediate'};
   state.profile = defaultProfile;
+  state.playerName = 'Player';
+  state.equipment = {calisthenics:true, dumbbell:false, barbell:false, gym:false, bands:false, kettlebell:false};
   state.stats = calculateBaselineStats(defaultProfile);
   state.systemAccepted = true;
   checkDailyReset();
+  state.hp = calcMaxHP();
+  state.hpInitialized = true;
   await saveState();
   document.getElementById('boot-overlay').classList.remove('active');
   glitchElement(document.getElementById('app-wrap'));
   render();
   setTimeout(()=>{
-    notify('<b>Boot sequence skipped.</b><br>Default profile applied — fine-tune your stats anytime from Settings.');
+    notify('<b>Boot sequence bypassed.</b><br>Default parameters applied.');
   }, 300);
 }
 
 async function firstBootFlow(){
+  bootSkipped = false;
   let accepted = await runBootSequence();
   while(!accepted){
     await runDeclineSequence();
@@ -1818,8 +2303,10 @@ async function firstBootFlow(){
     accepted = await runBootSequence();
   }
   const profile = await runIntakeForm();
+  const equipment = await askEquipmentChecklist();
   const stats = calculateBaselineStats(profile);
   state.profile = profile;
+  state.equipment = equipment;
   state.stats = stats;
   state.playerName = profile.name || 'Player';
   state.systemAccepted = true;
@@ -1873,10 +2360,12 @@ function setView(view){
 
 function updateMenuSubtext(){
   if(!state) return;
-  const remaining = EXERCISES.filter(e=> state.progress[e.key] < target(e.key)).length;
+  const remaining = getActiveExercises().filter(e=> state.progress[e.key] < target(e.key)).length;
   document.getElementById('menu-sub-quest').textContent =
     state.dayCompleted ? 'Cleared for today' : `${remaining} objective${remaining===1?'':'s'} remaining`;
-  document.getElementById('menu-sub-status').textContent = `LV ${state.level} · ${state.statPoints} unspent point${state.statPoints===1?'':'s'}`;
+  document.getElementById('menu-sub-status').textContent = `LV ${state.level} · ${state.hp}/${calcMaxHP()} HP`;
+  document.getElementById('menu-sub-skilltree').textContent =
+    state.statPoints > 0 ? `${state.statPoints} unspent point${state.statPoints===1?'':'s'}` : 'All points spent';
   document.getElementById('menu-sub-inventory').textContent = `${state.inventory.reduce((a,i)=>a+i.qty,0)} item${state.inventory.length===1?'':'s'} stocked`;
   document.getElementById('menu-sub-shop').textContent = `${state.points} PTS available`;
   const clearedCount = Object.keys(state.journey.completedOnce).length;
@@ -1920,7 +2409,7 @@ function render(){
   // quests
   const qlist = document.getElementById('quest-list');
   qlist.innerHTML = '';
-  EXERCISES.forEach(ex=>{
+  getActiveExercises().forEach(ex=>{
     const t = target(ex.key);
     const p = state.progress[ex.key];
     const done = p >= t;
@@ -2060,7 +2549,7 @@ function render(){
   // settings
   const slist = document.getElementById('settings-list');
   slist.innerHTML = '';
-  EXERCISES.forEach(ex=>{
+  getActiveExercises().forEach(ex=>{
     const row = document.createElement('div');
     row.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;';
     row.innerHTML = `
@@ -2083,7 +2572,38 @@ function render(){
     nameInput.value = state.playerName || 'Player';
   }
 
-  // stats
+  const eqList = document.getElementById('settings-equipment-list');
+  if(eqList){
+    eqList.innerHTML = EQUIPMENT_OPTIONS.map(opt => `
+      <label class="equip-check-row">
+        <input type="checkbox" data-eq="${opt.key}" ${state.equipment[opt.key] ? 'checked' : ''}>
+        <span>${opt.label}</span>
+      </label>
+    `).join('');
+    eqList.querySelectorAll('[data-eq]').forEach(cb=>{
+      cb.onchange = ()=>{
+        state.equipment[cb.dataset.eq] = cb.checked;
+        if(!Object.values(state.equipment).some(Boolean)){
+          state.equipment.calisthenics = true;
+          render();
+        }
+        saveState();
+        notify(`<b>Equipment updated.</b><br>Applies to Quests not yet generated.`);
+      };
+    });
+  }
+
+  const pullupsToggle = document.getElementById('settings-pullups-toggle');
+  if(pullupsToggle){
+    pullupsToggle.checked = !!state.includePullups;
+    pullupsToggle.onchange = ()=>{
+      state.includePullups = pullupsToggle.checked;
+      saveState();
+      notify(`<b>Pull-Ups ${state.includePullups ? 'enabled' : 'disabled'}.</b><br>Applies starting your next Daily Quest reset.`);
+    };
+  }
+
+  // stats — Status card (read-only, clean info display)
   const statlist = document.getElementById('stat-list');
   statlist.innerHTML = '';
   ['STR','AGI','VIT','INT','PER'].forEach(s=>{
@@ -2091,20 +2611,45 @@ function render(){
     row.className = 'stat-row';
     row.innerHTML = `
       <div class="stat-name">${s}</div>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <div class="stat-val">${state.stats[s]}</div>
-        ${state.statPoints>0 ? `<button class="btn small stat-plus" data-stat="${s}">+</button>` : ''}
-      </div>
+      <div class="stat-val">${state.stats[s]}</div>
     `;
     statlist.appendChild(row);
   });
-  statlist.querySelectorAll('.stat-plus').forEach(btn=>{
-    btn.onclick = ()=> allocateStat(btn.dataset.stat);
-  });
-  document.getElementById('points-note').textContent =
-    state.statPoints > 0 ? `${state.statPoints} unspent skill point${state.statPoints>1?'s':''}` : '';
 
   document.getElementById('streak-val').textContent = state.streak;
+
+  // Skill Tree — interactive stat cards with point allocation
+  document.getElementById('skilltree-points-val').textContent = state.statPoints;
+  document.getElementById('skilltree-points-plural').textContent = state.statPoints===1 ? '' : 's';
+  const stFlavor = {
+    STR:{icon:'💪', desc:'Trained by Push-Ups and pressing movements. Raises Push-Up difficulty.'},
+    AGI:{icon:'🏃', desc:'Trained by Squats and leg/agility movements. Raises Squat difficulty.'},
+    VIT:{icon:'❤️', desc:'Trained by Running and cardio/endurance movements. Raises Run difficulty.'},
+    INT:{icon:'🧠', desc:'Grows only from spent Skill Points — no linked exercise trains it directly.'},
+    PER:{icon:'🎯', desc:'Trained by Sit-Ups and core/precision movements. Raises Sit-Up difficulty.'}
+  };
+  const stlist = document.getElementById('skilltree-list');
+  stlist.innerHTML = '';
+  ['STR','AGI','VIT','INT','PER'].forEach(s=>{
+    const f = stFlavor[s];
+    const card = document.createElement('div');
+    card.className = 'skill-card';
+    card.innerHTML = `
+      <div class="skill-card-top">
+        <div class="skill-card-icon">${f.icon}</div>
+        <div>
+          <div class="skill-card-name">${s}</div>
+          <div class="skill-card-val">${state.stats[s]}</div>
+        </div>
+        ${state.statPoints>0 ? `<button class="btn small gold skill-plus" data-stat="${s}">+1</button>` : ''}
+      </div>
+      <div class="skill-card-desc">${f.desc}</div>
+    `;
+    stlist.appendChild(card);
+  });
+  stlist.querySelectorAll('.skill-plus').forEach(btn=>{
+    btn.onclick = ()=> allocateStat(btn.dataset.stat);
+  });
 
   updateMenuSubtext();
 
@@ -2223,7 +2768,7 @@ function render(){
     glitchElement(document.getElementById('app-wrap'));
     render();
     setTimeout(()=>{
-      notify(`<b>Welcome back, ${state.playerName || 'Player'}.</b><br>Standing by at LV ${state.level}.`);
+      notify(`<b>${state.playerName || 'Player'} recognized.</b><br>Standing by at LV ${state.level}.`);
     }, 400);
   }
 
@@ -2245,10 +2790,11 @@ function render(){
     state.playerName = v || 'Player';
     saveState();
     render();
-    notify(`<b>Name updated.</b><br>The System now calls you ${state.playerName}.`);
+    notify(`<b>Designation updated:</b> ${state.playerName}.`);
   });
 
   startHPRegen();
+  startClock();
 
   // Soft tick on any typing or number/dropdown adjustment, anywhere in the app.
   document.addEventListener('input', function(e){
